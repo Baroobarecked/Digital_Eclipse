@@ -1,0 +1,37 @@
+Table users {
+  id int [pk]
+  first_name varchar
+  last_name varchar
+  username varchar
+  email varchar
+  password hashedpassword
+  profile_image varchar
+}
+
+Table albums {
+  id int [pk]
+  user_id int [ref: > users.id]
+  album_title varchar
+  album_cover varchar
+  release_date datetime
+}
+
+
+Table songs {
+  id int [pk]
+  record_id int [ref: > albums.id]
+  songs varchar
+  side int
+}
+
+Table forums {
+  id int [pk]
+  forum_title varchar
+  admin int [ref: > users.id]
+}
+
+Table posts {
+  id int [pk]
+  forum_id int [ref: > forums.id]
+  user_id int [ref: > users.id]
+}
