@@ -14,20 +14,23 @@ function SignUp() {
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
 
-    const submitUser = async () => {
+    const submitUser = async (e) => {
+        e.preventDefault();
         dispatch(sessionActions.setSessionUser({'user': [firstName, lastName, username, email, password, defualtImage]}))
     }
 
     return (
         <div>
-            <input type={'text'} onChange={e => setFirstName(e.target.value)} value={firstName}/>
-            <input type={'text'} onChange={e => setLastName(e.target.value)} value={lastName}/>
-            <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
-            <input type={'text'} onChange={e => setEmail(e.target.value)} value={email}/>
-            <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
-            <input type={'text'} onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword}/>
-            <div value={defualtImage}>Drop Zone</div>
-            <button onClick={submitUser}>Submit</button>
+            <form>
+                <input type={'text'} onChange={e => setFirstName(e.target.value)} value={firstName}/>
+                <input type={'text'} onChange={e => setLastName(e.target.value)} value={lastName}/>
+                <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
+                <input type={'text'} onChange={e => setEmail(e.target.value)} value={email}/>
+                <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
+                <input type={'text'} onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword}/>
+                <div value={defualtImage}>Drop Zone</div>
+                <button onClick={submitUser}>Submit</button>
+            </form>
         </div>
         // <p>Hello World</p>
     )

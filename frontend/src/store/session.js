@@ -46,6 +46,33 @@ export const setSessionUser = user => async dispatch => {
     }
 
 }
+export const loginSessionUser = user => async dispatch => {
+    const [username, password] = user.user
+
+    let res = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'user': [
+            username,
+            password
+            ]
+        })
+    })
+
+    if(res.ok) {
+        const confirmeduser = await res.json()
+
+        if(!confirmeduser['errors']) {
+            dispatch(setUser(confirmeduser));
+        } else {
+            console.log(confirmeduser)
+        }
+    }
+
+}
 
 export const removeSessionUser = () => async dispatch => {
     dispatch(removeUser());

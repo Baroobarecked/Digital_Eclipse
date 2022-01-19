@@ -13,7 +13,8 @@ from backend.models.users import User
 app = Flask(__name__)
 
 login = LoginManager(app)
-login.login_view = 'users.unauthorized'
+# login.login_view = 'users.unauthorized'
+login.init_app(app)
 
 @login.user_loader
 def load_user(id):
