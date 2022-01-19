@@ -18,7 +18,33 @@ const removeUser = () => {
 
 // Thunks
 export const setSessionUser = user => async dispatch => {
-    dispatch(setUser(user));
+    const [firstName, lastName, username, email, password, defualtImage] = user.user
+
+    let res = await fetch('/api/users/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'user': [firstName,
+            lastName,
+            username,
+            email,
+            password,
+            defualtImage]
+        })
+    })
+
+    if(res.ok) {
+        const confirmeduser = await res.json()
+
+        if(!confirmeduser['errors']) {
+            dispatch(setUser(confirmeduser));
+        } else {
+            console.log(confirmeduser)
+        }
+    }
+
 }
 
 export const removeSessionUser = () => async dispatch => {
