@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import * as sessionActions from '../../store/session'
+import { NavLink } from 'react-router-dom'
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -13,26 +14,52 @@ function SignUp() {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
+    const [errors, setErrors] = useState([])
 
     const submitUser = async (e) => {
         e.preventDefault();
-        dispatch(sessionActions.setSessionUser({'user': [firstName, lastName, username, email, password, defualtImage]}))
+        let res = await dispatch(sessionActions.setSessionUser({'user': [firstName, lastName, username, email, password, defualtImage]}))
+        if(res['errors']) {
+            setErrors(res['errors'])
+        }
     }
 
     return (
-        <div>
-            <form>
-                <input type={'text'} onChange={e => setFirstName(e.target.value)} value={firstName}/>
-                <input type={'text'} onChange={e => setLastName(e.target.value)} value={lastName}/>
-                <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
-                <input type={'text'} onChange={e => setEmail(e.target.value)} value={email}/>
-                <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
-                <input type={'text'} onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword}/>
-                <div value={defualtImage}>Drop Zone</div>
-                <button onClick={submitUser}>Submit</button>
-            </form>
-        </div>
-        // <p>Hello World</p>
+        <form id='signupform'>
+            {errors && errors.map(error => {
+                return (
+                    <pre>{error}</pre>
+                )
+            })}
+            <label>
+                First Name
+            </label>
+            <input type={'text'} onChange={e => setFirstName(e.target.value)} value={firstName}/>
+            <label>
+                Last Name
+            </label>
+            <input type={'text'} onChange={e => setLastName(e.target.value)} value={lastName}/>
+            <label>
+                Username
+            </label>
+            <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
+            <label>
+                Email
+            </label>
+            <input type={'text'} onChange={e => setEmail(e.target.value)} value={email}/>
+            {password !== confirmPassword && <p>Passwords must match</p>}
+            <label>
+                Password
+            </label>
+            <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
+            <label>
+                Confirm Password
+            </label>
+            <input type={'text'} onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword}/>
+            <div value={defualtImage}>Drop Zone</div>
+            <button onClick={submitUser}>Join Eclipse</button>
+            <p>Have an account? <NavLink to='/login'>Login</NavLink></p>
+        </form>
     )
 }
 

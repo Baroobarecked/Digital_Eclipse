@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import * as sessionActions from '../../store/session'
+import { NavLink, Outlet } from 'react-router-dom'
+// import useHistory from 'react-router-dom'
 
 function Login() {
 
     const dispatch = useDispatch();
+    // const history = useHistory();
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -15,13 +18,16 @@ function Login() {
     }
 
     return (
-        <div>
-            <form>
-                <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
-                <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
-                <button onClick={submitUser}>Submit</button>
-            </form>
-        </div>
+
+        <form id='loginform'>
+            <label /> Username
+            <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
+            <label /> Password
+            <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
+            <button onClick={submitUser}>Submit</button>
+            <p>Need an account? <NavLink to='/signup'>Sign Up</NavLink></p>
+        </form>
+
     )
 }
 

@@ -36,3 +36,71 @@
     transform: rotate(360deg);
   }
 }
+
+#signupform, #loginform {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  background-color: black;
+  padding: 30px;
+  border-radius: 5px;
+  color: white;
+  z-index: 1;
+}
+
+#signupform input, #loginform input{
+  background-color: maroon;
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 2px;
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+input:focus {
+  outline: hidden;
+}
+
+.form_modal {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.form_background {
+  position: relative;
+  background-image: url('../public/sun2.jpg');
+  background-size: 100vw 100vh;
+  overflow: hidden;
+}
+
+.record_image {
+  position: absolute;
+  width: 75vw;
+  animation: eclipse 60s linear, spin 2s linear infinite;
+  z-index: 0;
+  left: 12.5%;
+  top: 12.5%;
+}
+
+@keyframes eclipse {
+  from {
+    left: 75%;
+    top: 75%;
+  }
+  to {
+    left: 12.5%;
+    top: 12.5%;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -41,7 +41,7 @@ export const setSessionUser = user => async dispatch => {
         if(!confirmeduser['errors']) {
             dispatch(setUser(confirmeduser));
         } else {
-            console.log(confirmeduser)
+            return confirmeduser;
         }
     }
 
@@ -68,14 +68,17 @@ export const loginSessionUser = user => async dispatch => {
         if(!confirmeduser['errors']) {
             dispatch(setUser(confirmeduser));
         } else {
-            console.log(confirmeduser)
+            return confirmeduser
         }
     }
 
 }
 
 export const removeSessionUser = () => async dispatch => {
-    dispatch(removeUser());
+    let res = await fetch('/api/users/logout')
+    if(res.ok) {
+        dispatch(removeUser());
+    }
 }
 
 // Reducer
