@@ -8,7 +8,6 @@ upload_routes = Blueprint('uploads', __name__, url_prefix='/api/uploads')
 
 @upload_routes.route('', methods=['POST'])
 def uploadFile():
-    print('Hello')
     S3_BUCKET = os.environ.get('BUCKETEER_BUCKET_NAME')
 
     s3 = boto3.client('s3',
@@ -24,7 +23,7 @@ def uploadFile():
 
     presigned_post = s3.generate_presigned_post(
         Bucket = S3_BUCKET,
-        Key = f'/puplic/{file_name}',
+        Key = f'{file_name}',
         Fields = {"acl": "public-read", "Content-Type": file_type},
         Conditions = [
             {"acl": "public-read"},

@@ -103,6 +103,7 @@ export default function AddAlbum() {
             body: postData
         })
         if(res.ok) {
+            console.log('ok')
             setImageUrl(url)
             setImageLoading(false)
         }
