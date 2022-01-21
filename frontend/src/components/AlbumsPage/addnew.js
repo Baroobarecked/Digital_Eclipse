@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import * as albumActions from '../../store/album';
+
 
 
 export default function AddAlbum() {
@@ -10,7 +12,8 @@ export default function AddAlbum() {
     const [imageUrl, setImageUrl] = useState('');
     const [imageLoading, setImageLoading] = useState(false)
     const [albumTitle, setAlbumTitle] = useState(null)
-    const currentUser = useSelector(state => state.session.user)
+    const currentUser = useSelector(state => state.session.User)
+    const { albumId } = useParams();
 
     // const [sides, setSides] = useState(0);
     // const [songs, setSongs] = useState(0);
@@ -71,23 +74,6 @@ export default function AddAlbum() {
         else alert('Could not get signed URL')
     }
 
-    // function getSignedRequest(file){
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open("GET", "/api/uploads?file_name="+file.name+"&file_type="+file.type);
-    //     xhr.onreadystatechange = function(){
-    //       if(xhr.readyState === 4){
-    //         if(xhr.status === 200){
-    //           var response = JSON.parse(xhr.responseText);
-    //           uploadFile(file, response.data, response.url);
-    //         }
-    //         else{
-    //           alert("Could not get signed URL.");
-    //         }
-    //       }
-    //     };
-    //     xhr.send();
-    //   }
-
     async function uploadFile(file, s3Data, url) {
 
         let postData = new FormData();
@@ -109,35 +95,6 @@ export default function AddAlbum() {
         }
         else alert('Could not upload file.')
     }
-
-    // function uploadFile(file, s3Data, url){
-    //     var xhr = new XMLHttpRequest();
-         
-         
-    //     xhr.open("POST", s3Data.url, {
-    //       headers:{
-    //         'Content-Type': file.type
-    //       }
-    //     });
-    //     var postData = new FormData();
-    //     for(let key in s3Data.fields){
-    //       postData.append(key, s3Data.fields[key]);
-    //     }
-    //     postData.append('file', file);
-      
-    //     xhr.onreadystatechange = function() {
-    //         if(xhr.readyState === 4){
-    //             if(xhr.status === 200 || xhr.status === 204){
-    //                 setImageUrl(url);
-    //                 setImageLoading(false);
-    //             }
-    //             else{
-    //                 alert("Could not upload file.");
-    //             }
-    //         }
-    //     };
-    //     xhr.send(postData);
-    // }
     
     const dropHandler = (e) => {
         e.preventDefault();
@@ -176,7 +133,7 @@ export default function AddAlbum() {
         console.log(currentUser)
         let album = {
             'album_title': albumTitle,
-            'user_id': currentUser,
+            'user_id': currentUser.id,
             'album_cover': imageUrl
         }
 

@@ -112,3 +112,96 @@ input:focus {
   display: flex;
   justify-content: center;
 }
+
+.react-fetch-progress-bar {
+  position: relative;
+  background-color: red !important;
+  height: 10px;
+  width: 200px;
+}
+
+.album_main {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-areas: "nav nav nav"
+                          "albums albums albums"
+                          "player player player";
+  grid-template-rows: 100px auto 15%;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-image: url('../public/DeepSpace.jpg');
+}
+
+.album_display {
+  position: relative;
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  grid-area: albums;
+  height: 100%;
+  width: 100%;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.album_display::-webkit-scrollbar {
+  display: none;
+}
+
+.album {
+  width: fit-content;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: static;
+  margin-left: 15px;
+  background: none;
+}
+
+.album_wrapper {
+  width: 50vh;
+  height: 50vh;
+  /* background-color: turquoise; */
+  background-size: cover;
+  transition: width 0.2s, height 0.2s, rotate 1s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  /* transform: rotatez(5deg) */
+}
+.album img {
+  /* width: 100%; */
+  height: 100%;
+  /* object-fit: cover; */
+}
+
+.album_wrapper:hover {
+  /* transform: rotateZ(0deg); */
+}
+
+.album_wrapper:hover, .album_wrapper_single {
+  position: absolute;
+  width: 60vh;
+  height: 60vh;
+  /* border: 3px black solid; */
+  padding: 0px;
+  z-index: 10;
+  /* object-fit: cover; */
+}
+
+.album_wrapper_single {
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+.album_wrapper button, .album_wrapper_single button {
+  margin-bottom: 10px;
+  /* width: 50px */
+}

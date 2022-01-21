@@ -11,7 +11,7 @@ def getAlbums(user_id):
     '''
         Function returns an array of all the albums created by the user
     '''
-    albums = Album.query.filter(Album.user_id is user_id).all()
+    albums = Album.query.filter(Album.user_id == user_id).all()
     print(f'made it to albums....... user {user_id}')
     print(albums)
     albums_with_songs = []
@@ -19,6 +19,7 @@ def getAlbums(user_id):
         sides = Song.query.filter(Song.record_id is album.id)
         albums_with_songs.append([{'album': album.to_dict(),
                                     'sides': [side.to_dict() for side in sides]}])
+    print(albums_with_songs)
     return {'albums': albums_with_songs}
 
 @album_routes.route('', methods=['POST'])
@@ -31,7 +32,7 @@ def createAlbum():
     album = Album(
         album_title=data['album_title'],
         album_cover=data['album_cover'],
-        user_id=1
+        user_id=data['user_id']
     )
 
     db.session.add(album)

@@ -17,6 +17,21 @@ const removeUser = () => {
 }
 
 // Thunks
+export const authenticate = () => async (dispatch) => {
+    const response = await fetch('/api/users/', {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        const data = await response.json();
+        if (data.errors) {
+            return;
+        }
+        
+        dispatch(setUser(data));
+    }
+}
 export const setSessionUser = user => async dispatch => {
     const [firstName, lastName, username, email, password, defualtImage] = user.user
 

@@ -25,10 +25,11 @@ function deleteAlbum(albumId) {
 
 //Thunks
 export const getUserAlbums = userId => async dispatch => {
-    let res = await fetch(`/albums/${userId}`)
+    let res = await fetch(`/api/albums/${userId}`)
 
     if(res.ok) {
-        let albums = res.json()
+        let albums = await res.json()
+        console.log(albums['albums'])
         dispatch(getAlbums(albums['albums']))
     }
 }
@@ -56,7 +57,8 @@ export default function albumsReducer(state = null, action) {
     let newState = {};
     switch(action.type) {
         case GET_ALBUMS:
-            return {...action.albums}
+            console.log(action.albums)
+            return {'albums': [...action.albums]}
         case ADD_ALBUM:
             console.log(action)
             newState = {...state};
