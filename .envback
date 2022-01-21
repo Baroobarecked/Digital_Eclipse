@@ -1,0 +1,6 @@
+FLASK_ENV=development
+SECRET_KEY=ajp@oavUOPDUfh#&fo923732-alais@udhf7%5642
+DATABASE_URL=postgresql://digital_eclipse:adoia48nbzipqeur^%lkjgn!34123;laknuiuadf-apsdughaniubgap98q7qer1n;a1@localhost/digital_eclipse_db
+S3_BUCKET=humbleimages
+AWS_ACCESS_KEY_ID=AKIAQ5SXVUBE3CRFEO6T
+AWS_SECRET_ACCESS_KEY=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

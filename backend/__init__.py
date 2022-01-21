@@ -1,6 +1,8 @@
 import os
 from flask import Flask, request, redirect
 from .api.users import user_routes
+from .api.albums import album_routes
+from .api.uploads import upload_routes
 from backend.models.db import db
 from flask_migrate import Migrate
 from backend.config import Config
@@ -21,6 +23,8 @@ def load_user(id):
     return User.query.get(int(id))
 
 app.register_blueprint(user_routes)
+app.register_blueprint(album_routes)
+app.register_blueprint(upload_routes)
 
 app.config.from_object(Config)
 db.init_app(app)
@@ -55,3 +59,8 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_static_file('favicon.ico')
     return app.send_static_file('index.html')
+
+
+# if __name__ == '__main__':
+#   port = int(os.environ.get('PORT', 5000))
+#   app.run(host='0.0.0.0', port = port)

@@ -9,3 +9,9 @@ class Song(db.Model):
     side = db.Column(db.Integer, nullable=False)
 
     album = db.relationship("Album", back_populates='songs')
+
+    def to_dict(self):
+        return {
+            'side': self.side,
+            'songs': self.songs
+        }

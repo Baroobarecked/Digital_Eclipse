@@ -1,6 +1,6 @@
 .env
 node_modules
 .flaskenv
-Docker
+Dockerfile
 docker-compose.yml
 .venv

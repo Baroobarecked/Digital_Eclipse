@@ -11,3 +11,10 @@ class Album(db.Model):
 
     user = db.relationship("User", back_populates="albums")
     songs = db.relationship("Song", back_populates="album", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'album_title': self.album_title,
+            'album_cover': self.album_cover
+        }

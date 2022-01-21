@@ -8,6 +8,13 @@ flask = "*"
 python-dotenv = "*"
 werkzeug = "*"
 flask-dotenv = "*"
+gunicorn = "*"
+flask-login = "*"
+flask-sqlalchemy = "*"
+flask-wtf = "*"
+boto3 = "*"
+flask-migrate = "*"
+flask-cors = "*"
 
 [dev-packages]
 
