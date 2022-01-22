@@ -37,7 +37,7 @@
   }
 }
 
-#signupform, #loginform, #add_album_form {
+#signupform, #loginform, #add_album_form, #add_song_form {
   display: flex;
   flex-direction: column;
   width: 30vw;
@@ -48,7 +48,7 @@
   z-index: 1;
 }
 
-#signupform input, #loginform input, #add_album_form input{
+#signupform input, #loginform input, #add_album_form input, #add_song_form input{
   background-color: maroon;
   color: white;
   border: none;
@@ -111,6 +111,7 @@ input:focus {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  background-color: maroon;
 }
 
 .react-fetch-progress-bar {
@@ -156,7 +157,7 @@ input:focus {
   width: fit-content;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   position: relative;
   margin-left: 15px;
   background: none;
@@ -167,7 +168,7 @@ input:focus {
   height: 50vh; */
   /* background-color: turquoise; */
   background-size: contain;
-  transition: width 0.5s, height 0.5s;
+  /* transition: width 0.1s, height 0.1s; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -185,11 +186,15 @@ input:focus {
   transform: rotateZ(0deg);
 }
 
-.album_wrapper:hover, .album_wrapper_single {
-  /* position: absolute; */
-  width: 60vh;
-  height: 60vh;
-  /* border: 3px black solid; */
+.album_wrapper:hover {
+  border: 3px black solid;
+  margin-top: 10px;
+}
+
+.album_wrapper_single {
+  position: relative;
+  width: 70vh;
+  height: 70vh;
   padding: 0px;
   z-index: 10;
   /* object-fit: cover; */
@@ -213,3 +218,7 @@ input:focus {
   height: 100%;
   padding: 30vw;
 }
+
+/* .album_wrapper h1 {
+  font-size: 5vh;
+} */

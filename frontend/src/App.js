@@ -8,6 +8,7 @@ import AddAlbum from './components/AlbumsPage/addnew';
 import Navbar from './components/Navbar';
 import UserModal from './components/UserPages/usermodal';
 import Albums from './components/AlbumsPage/main';
+import SongForm from './components/SongsPage/addsongform'
 import { authenticate } from './store/session';
 
 function App() {
@@ -32,12 +33,12 @@ function App() {
         <Route path='' element={<UserModal />}>
           <Route exact path='signup' element={<SignUp />} />
           <Route exact path='login' element={<Login />} />
-          <Route exact path='addalbum' element={<AddAlbum />} />
         </Route>
           {/* <Route index element={<Navbar />} />
         </Route> */}
-        <Route exact path='/albums' element={<Albums />}>
-
+        <Route exact path='albums' element={<Albums />}>
+          <Route exact path='addalbum' element={<AddAlbum />} />
+          <Route exact path=':albumId/songs' element={<SongForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

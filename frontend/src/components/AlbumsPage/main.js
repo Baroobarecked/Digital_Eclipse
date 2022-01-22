@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import * as albumActions from '../../store/album'
+import { Outlet } from 'react-router-dom'
 
 function Albums() {
     const albums = useSelector(state => state.albums)
@@ -29,33 +30,25 @@ function Albums() {
     const scrollAlbums = (e) => {
         e.stopPropagation()
 
-        // sizeAlbums()
-
-        clearTimeout(timeout)
-        clearInterval(changeSize)
+        clearTimeout(timeout);
         
         if(e.target.className === 'album_display') {
-            
-            e.target.scrollLeft += 1 * e.deltaY
+            e.target.scrollLeft += 0.00000007 * e.deltaY**5
         }
         else if(e.target.className === 'album' || e.target.className === 'scrollBuffer') {
-            e.target.parentElement.scrollLeft += 1 * e.deltaY
+            e.target.parentElement.scrollLeft += 0.00000007 * e.deltaY**5
         }
         else if(e.target.className === 'album_wrapper') {
-            e.target.parentElement.parentElement.scrollLeft += 1 * e.deltaY
+            e.target.parentElement.parentElement.scrollLeft += 0.00000007 * e.deltaY**5
         } else {
-            e.target.parentElement.parentElement.parentElement.scrollLeft += 1 * e.deltaY
+            e.target.parentElement.parentElement.parentElement.scrollLeft += 0.00000007 * e.deltaY**5
         }
-        // let timer = e.deltaY**2
-        // console.log(timer)
-        changeSize = setInterval(sizeAlbums, 100)
+
+        changeSize = setInterval(sizeAlbums, 10)
 
         timeout = setTimeout(() => {
             clearInterval(changeSize)
-            // sizeAlbums()
-            console.log('change cleared')
         }, 2000)
-        // sizeAlbums()
         
         
     }
@@ -70,31 +63,32 @@ function Albums() {
             let albumWrapperLocation = albumWrapper.getBoundingClientRect();
             let middle = (albumWrapperLocation.right + albumWrapperLocation.x) /2;
             if(middle <= halfWidth && middle > 0){
-                albumWrapper.style.width = `${10 + 40 * middle / halfWidth}vh`
-                albumWrapper.style.height = `${10 + 40 * middle / halfWidth}vh`
-                albumWrapper.style.top = `${100 * middle / halfWidth}px`
+                albumWrapper.style.width = `${10 + 25 * middle / halfWidth}vh`
+                albumWrapper.style.height = `${10 + 25 * middle / halfWidth}vh`
+                albumWrapper.style.top = `${15000 * middle**(1/6) / halfWidth}%`
+                albumWrapper.style.opacity = `${100 * middle**(1/3) / halfWidth**(1/3)}%`
+                albumWrapper.style.fontSize = `${3 * middle / halfWidth}vh`
                 if((10 + 40 * middle / halfWidth) < 28) {
-                    albumWrapper.firstChild.style.visibility = 'hidden';
                     albumWrapper.lastChild.style.visibility = 'hidden';
                 } else {
-                    albumWrapper.firstChild.style.visibility = 'visible';
                     albumWrapper.lastChild.style.visibility = 'visible';
                 }
             } else if (middle > halfWidth && middle <= albumDisplayLocation.width){
-                albumWrapper.style.width = `${10 + 40 * (albumDisplayLocation.width - middle) / halfWidth}vh`
-                albumWrapper.style.height = `${10 + 40 * (albumDisplayLocation.width - middle) / halfWidth}vh`
-                albumWrapper.style.top = `${100 * (albumDisplayLocation.width - middle) / halfWidth}px`
+                albumWrapper.style.width = `${10 + 25 * (albumDisplayLocation.width - middle) / halfWidth}vh`
+                albumWrapper.style.height = `${10 + 25 * (albumDisplayLocation.width - middle) / halfWidth}vh`
+                albumWrapper.style.top = `${15000 * (albumDisplayLocation.width - middle)**(1/6) / halfWidth}%`
+                albumWrapper.style.opacity = `${100 * (albumDisplayLocation.width - middle)**(1/3) / halfWidth**(1/3)}%`
+                albumWrapper.style.fontSize = `${3 * (albumDisplayLocation.width - middle) / halfWidth}vh`
                 if((10 + 40 * (albumDisplayLocation.width - middle) / halfWidth) < 28) {
-                    albumWrapper.firstChild.style.visibility = 'hidden';
                     albumWrapper.lastChild.style.visibility = 'hidden';
                 } else {
-                    albumWrapper.firstChild.style.visibility = 'visible';
                     albumWrapper.lastChild.style.visibility = 'visible';
                 }
             } else {
                 albumWrapper.style.width = `10vh`
                 albumWrapper.style.height = `10vh`
-                albumWrapper.style.top = '0px'
+                albumWrapper.style.opacity = '0%'
+                // albumWrapper.style.top = '30%'
             }
         }
     }
@@ -188,6 +182,7 @@ function Albums() {
                     </div>
                 </div>
             }
+            <Outlet />
         </div>
     )
 }

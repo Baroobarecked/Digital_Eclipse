@@ -17,41 +17,7 @@ export default function AddAlbum() {
     const currentUser = useSelector(state => state.session.User)
     const { albumId } = useParams();
     const navigate = useNavigate();
-
-    // const [sides, setSides] = useState(0);
-    // const [songs, setSongs] = useState(0);
-    // const [songList, setSongList] = useState({})
-    // const [components, setComponents] = useState([])
-    // const [songComponents, setSongComponents] = useState([])
-
-    // const songComponent = (e) => {
-    //     console.log('hi')
-    //     e.preventDefault()
-    //     setSongs(songs + 1)
-    //     const i = songs
-    //     let component = (
-    //         <>
-    //             <input type={'text'} onBlur={e => setSongList(songList[i] = e.target.value)}/>
-    //         </>
-    //     )
-    //     console.log(component)
-    //     setSongComponents(songComponents.push(component))
-    //     console.log(songComponents)
-    // }
-
-    // const sideComponent = (e) => {
-    //     e.preventDefault()
-    //     setSides(sides + 1)
-    //     const i = sides
-    //     let component = (
-    //         <li>
-    //             <button onClick={songComponent}>Add Song</button>
-    //             <label /> Side {i}
-    //         </li>
-    //     )
-    //     setComponents([...components, component])
-    //     console.log(components)
-    // }
+    
 
     // const updateImage = (e) => {
     //     const file = e.target.files[0];
@@ -92,8 +58,8 @@ export default function AddAlbum() {
             body: postData
         })
         if(res.ok) {
-            console.log('ok')
             setImageUrl(url)
+            console.log('ok')
             setImageLoading(false)
         }
         else alert('Could not upload file.')
@@ -144,14 +110,16 @@ export default function AddAlbum() {
         console.log(res)
         if(res) {
             console.log('time to return')
-            navigate('/albums', {replace: true})
+            navigate(`/albums/${res.album.id}/songs`, {replace: true})
         }
 
     }
 
     return (
-        <>
-            <form id='add_album_form'>
+        <div className="form_modal"onClick={() => {
+            navigate('/albums', {replace: true})
+        }}>
+            <form id='add_album_form' onClick={e => e.stopPropagation()}>
                 <label /> Album Title
                 <input type={'text'} onChange={e => setAlbumTitle(e.target.value)} value={albumTitle}/>
                 <label /> Album Cover
@@ -164,10 +132,10 @@ export default function AddAlbum() {
                     >
                     Drag and Drop Album Cover Here
                 </div>
-                {(imageLoading) && <p>Loading...</p>}
                 <input type="file" onChange={selectFolder} webkitdirectory='true' multiple/>
+                {(imageLoading) && <p>Loading...</p>}
                 <button onClick={submitAlbum}>Add Album</button>
             </form>
-        </>
+        </div>
     )
 }
