@@ -49,6 +49,7 @@ export const addNewAlbum = album => async dispatch => {
         let album = await res.json()
         // console.log(album)
         dispatch(addAlbum(album.album))
+        return album;
     }
 }
 

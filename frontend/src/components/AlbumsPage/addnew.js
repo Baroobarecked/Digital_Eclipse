@@ -2,7 +2,9 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 import * as albumActions from '../../store/album';
+
 
 
 
@@ -14,6 +16,7 @@ export default function AddAlbum() {
     const [albumTitle, setAlbumTitle] = useState(null)
     const currentUser = useSelector(state => state.session.User)
     const { albumId } = useParams();
+    const navigate = useNavigate();
 
     // const [sides, setSides] = useState(0);
     // const [songs, setSongs] = useState(0);
@@ -137,7 +140,13 @@ export default function AddAlbum() {
             'album_cover': imageUrl
         }
 
-        await dispatch(albumActions.addNewAlbum(album));
+        let res = await dispatch(albumActions.addNewAlbum(album));
+        console.log(res)
+        if(res) {
+            console.log('time to return')
+            navigate('/albums', {replace: true})
+        }
+
     }
 
     return (
