@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from flask_login import login_required
 
 from ..models import db, Album, Song
+from ..forms import SongsForm
 
 album_routes = Blueprint('albums', __name__, url_prefix='/api/albums')
 
@@ -14,13 +15,13 @@ def getAlbums(user_id):
     albums = Album.query.filter(Album.user_id == user_id).all()
     print(f'made it to albums....... user {user_id}')
     print(albums)
-    albums_with_songs = []
-    for album in albums:
-        sides = Song.query.filter(Song.record_id is album.id)
-        albums_with_songs.append([{'album': album.to_dict(),
-                                    'sides': [side.to_dict() for side in sides]}])
-    print(albums_with_songs)
-    return {'albums': albums_with_songs}
+    # albums_with_songs = []
+    # for album in albums:
+    #     sides = Song.query.filter(Song.record_id is album.id)
+    #     albums_with_songs.append([{'album': album.to_dict(),
+    #                                 'sides': [side.to_dict() for side in sides]}])
+    # print(albums_with_songs)
+    return {'albums': [album.to_dict() for album in albums]}
 
 @album_routes.route('', methods=['POST'])
 def createAlbum():
@@ -52,3 +53,12 @@ def deleteAlbum():
         Function deletes and album and returns a success message
     '''
     pass
+
+@album_routes.route('/<int:album_id>/songs')
+@login_required
+def getSongs(album_id):
+    
+    songs = Song.query.filter(Song.record_id == album_id).all()
+    print('................before')
+    print(songs)
+    return { 'songs': [song.to_dict() for song in songs]}

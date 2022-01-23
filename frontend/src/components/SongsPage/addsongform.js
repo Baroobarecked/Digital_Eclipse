@@ -1,83 +1,20 @@
 import {useState} from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import * as songsActions from '../../store/song';
 
 export default function SongForm() {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [audioUrl, setAudioUrl] = useState(null);
     const [imageLoading, setImageLoading] = useState(false)
     const { albumId } = useParams();
     const navigate = useNavigate();
-    // const [songsArray, setSongsArray] = useState({});
     const [songs, setSongs] = useState({})
     const [songToAdd, setSongToAdd] = useState('')
 
     const [side, setSide] = useState(0);
     const [minimize, setMinimize] = useState(false)
-    // const [songs, setSongs] = useState(0);
-    // const [songList, setSongList] = useState({})
-    // const [components, setComponents] = useState([])
-    // const [songComponents, setSongComponents] = useState([])
 
-    // const songComponent = (e) => {
-    //     console.log('hi')
-    //     e.preventDefault()
-    //     setSongs(songs + 1)
-    //     const i = songs
-    //     let component = (
-    //         <>
-    //             <input type={'text'} onBlur={e => setSongList(songList[i] = e.target.value)}/>
-    //         </>
-    //     )
-    //     console.log(component)
-    //     setSongComponents(songComponents.push(component))
-    //     console.log(songComponents)
-    // }
-
-    // const sideComponent = (url) => {
-    //     // e.preventDefault()
-    //     let songToAdd;
-    //     // let songs = [];
-    //     let i = side
-    //     let component = (
-    //         <li>
-    //             {/* <button onClick={songComponent}>Add Song</button> */}
-    //             <label /> Side {i}
-    //             {/* <ul>
-    //                 {songs && songs.map(song => {
-    //                     console.log(song)
-    //                     return (
-    //                         <li>
-    //                             {song}
-    //                         </li>
-    //                     )
-    //                 })}
-    //             </ul> */}
-    //             <input type={'text'} onChange={e => {
-    //                 songToAdd = e.target.value
-    //             }} value={songToAdd}/>
-    //             <input type={'number'} onChange={e => setSide(e.target.value)} />
-    //             <button onClick={e => {
-    //                 e.preventDefault()
-    //                 let key = `Side ${i}`;
-    //                 if(songs[key]){
-    //                     console.log(songs[key])
-    //                     songs[key] = [...songs[key], songToAdd]
-    //                     setSongs(songs)
-    //                 } else {
-    //                     songs[key] = [songToAdd]
-    //                     setSongs(songs)
-    //                 }
-    //                 navigate(`/albums/${albumId}/songs`, {replace: false})
-    //                 // console.log(songToAdd)
-    //                 console.log(songs)
-    //                 // console.log('hello')
-    //             }}>Add Song</button>
-    //         </li>
-    //     )
-    //     setComponents([...components, component])
-    //     console.log(components)
-    //     setSongsArray(songsArray[`Side ${i}`] = {'url': url})
-    // }
 
     async function getSignedRequest(file) {
         const res = await fetch(`/api/uploads`, {
@@ -153,9 +90,21 @@ export default function SongForm() {
 
     function submitSongs(e) {
         e.preventDefault();
-
-        let data = [songs, albumId, audioUrl];
+        let data = [songs, albumId];
         console.log(data);
+        dispatch(songsActions.addNewSongs(data));
+    }
+
+    function deleteSong(key, index) {
+        songs[key].splice(index, 1)
+        setSongs(songs)
+        navigate(`/albums/${albumId}/songs`)
+    }
+    
+    function deleteSide(key) {
+        delete songs[key]
+        setSide(side - 1)
+        navigate(`/albums/${albumId}/songs`)
     }
 
     
@@ -185,26 +134,16 @@ export default function SongForm() {
                         }
                         {imageLoading && <p>Uploading...</p>}
                         
-                        {audioUrl && 
+                        {audioUrl && side > 0 && 
                             <>
-                                {/* <button onClick={songComponent}>Add Song</button> */}
-                                <label /> Side {i}
-                                {/* <ul>
-                                    {songs && songs.map(song => {
-                                        console.log(song)
-                                        return (
-                                            <li>
-                                                {song}
-                                            </li>
-                                        )
-                                    })}
-                                </ul> */}
+                                <h3>Editing Side {i}</h3>
+                                
+                                <label /> Change Record Side
+                                <input type={'number'} onChange={e => setSide(e.target.value)} value={side} max={Object.keys(songs).length} min='1' />
                                 <label /> Song Title
                                 <input type={'text'} onChange={e => {
                                     setSongToAdd(e.target.value)
                                 }} value={songToAdd}/>
-                                <label /> Record Side
-                                <input type={'number'} onChange={e => setSide(e.target.value)} value={side} />
                                 <button onClick={e => {
                                     e.preventDefault()
                                     let key = `Side ${i}`;
@@ -216,6 +155,7 @@ export default function SongForm() {
                                         songs[key] = [audioUrl, songToAdd]
                                         setSongs(songs)
                                     }
+                                    setSongToAdd('')
                                     navigate(`/albums/${albumId}/songs`, {replace: false})
                                     
                                 }}>Add Song</button>
@@ -228,11 +168,15 @@ export default function SongForm() {
                                         return (
                                             <>
                                                 <h3>{key}</h3>
-                                                {songs[key].map(song => {
+                                                <button onClick={() => deleteSide(key)}>Remove Side</button>
+                                                {songs[key].map((song, index)=> {
                                                     if(song && !song.includes('-c8e3fd63-1c26-4660')) {
                                                         return (
                                                             <li>
                                                                 {song}
+                                                                <button onClick={() => {
+                                                                    deleteSong(key, index)
+                                                                }}>Remove</button>
                                                             </li>
                                                         )
                                                     }
