@@ -49,7 +49,7 @@
 }
 
 #signupform input, #loginform input, #add_album_form input, #add_song_form input{
-  background-color: maroon;
+  background-color: navy;
   color: white;
   border: none;
   padding: 5px;
@@ -74,8 +74,8 @@ input:focus {
 
 .form_background {
   position: relative;
-  background-image: url('../public/sun2.jpg');
-  background-size: 100vw 100vh;
+  background-image: url('../public/bluestar.jpg');
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -259,7 +259,7 @@ div.album_wrapper_single {
 }
 
 .record {
-  background-image: url('../public/record.png');
+  background-image: url('../public/nobackgroundrecord2.png');
   background-size: contain;
   width: 25vh;
   height: 25vh;

@@ -1,4 +1,4 @@
-import os, json, boto3
+import os, json, boto3, uuid
 from flask import Blueprint, request
 from flask_login import login_required
 
@@ -20,6 +20,12 @@ def uploadFile():
     file_name = data[0]
     file_type = data[1]
     print(data)
+
+
+    file_name = file_name.replace(' ', '')
+
+    file_name = f'{uuid.uuid4()}{file_name}'
+
 
     presigned_post = s3.generate_presigned_post(
         Bucket = S3_BUCKET,
