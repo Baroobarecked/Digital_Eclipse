@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router';
 import * as sessionActions from '../../store/session'
 
 function Logout() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const userLogout = () => {
         dispatch(sessionActions.removeSessionUser())
+        navigate('/login')
     }
 
     return (
-        <button onClick={userLogout}>Log out</button>
+        <div className={'logout'}>
+            <button  onClick={userLogout}>Log out</button>
+            <button onClick={() => {
+                navigate('/albums/addalbum')
+            }}>Add Album</button>
+        </div>
     )
 }
 

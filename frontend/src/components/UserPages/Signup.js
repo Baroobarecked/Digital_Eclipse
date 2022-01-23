@@ -51,11 +51,11 @@ function SignUp() {
             <label>
                 Password
             </label>
-            <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
+            <input type={'password'} onChange={e => setPassword(e.target.value)} value={password}/>
             <label>
                 Confirm Password
             </label>
-            <input type={'text'} onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword}/>
+            <input type={'password'} onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword}/>
             <div value={defualtImage}>Drop Zone</div>
             <button onClick={submitUser}>Join Eclipse</button>
             <p>Have an account? <NavLink to='/login'>Login</NavLink></p>

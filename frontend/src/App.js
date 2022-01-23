@@ -10,6 +10,7 @@ import UserModal from './components/UserPages/usermodal';
 import Albums from './components/AlbumsPage/main';
 import SongForm from './components/SongsPage/addsongform'
 import { authenticate } from './store/session';
+import Logout from './components/UserPages/Logout';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -37,6 +38,7 @@ function App() {
           {/* <Route index element={<Navbar />} />
         </Route> */}
         <Route exact path='albums' element={<Albums />}>
+          <Route index element={<Navbar />} />
           <Route exact path='addalbum' element={<AddAlbum />} />
           <Route exact path=':albumId/songs' element={<SongForm />} />
         </Route>

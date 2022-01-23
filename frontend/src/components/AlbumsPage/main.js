@@ -15,9 +15,10 @@ function Albums() {
     const navigator = useNavigate()
     const [playUrl, setPlayUrl] = useState(null)
     const [recordPlaying, setRecordPlaying] = useState(false)
+    const [pause, setPause] = useState(false)
 
     useEffect(() => {
-        console.log(currentUser)
+        // console.log(currentUser)
         if(currentUser) {
             dispatch(albumActions.getUserAlbums(currentUser.id))
             // console.log(albums)
@@ -68,8 +69,8 @@ function Albums() {
     const sizeAlbums = () => {
         const albumDisplay = document.getElementsByClassName('album_display')[0]
         const albumWrappers = Array.from(document.getElementsByClassName('album_wrapper'))
-        const albumDisplayLocation = albumDisplay.getBoundingClientRect()
         if(albumDisplay) {
+            const albumDisplayLocation = albumDisplay.getBoundingClientRect()
             const halfWidth = albumDisplayLocation.width / 2;
             for(let i = 0; i < albumWrappers.length; i++) {
                 let albumWrapper = albumWrappers[i];
@@ -117,15 +118,26 @@ function Albums() {
 
     const dropHandler = (e) => {
         e.preventDefault();
-        let data = e.dataTransfer.getData('text');
-        console.log(data)
+        // let data = e.dataTransfer.getData('text');
+        // console.log(data)
         // e.target.style.backgroundColor = 'green'
         console.log(e.target.firstChild)
         e.target.firstChild.src = '';
-        e.target.firstChild.src = playUrl
-        e.target.firstChild.play()
-        setRecordPlaying(true)
+        e.target.firstChild.src = playUrl;
+        e.target.firstChild.play();
+        setRecordPlaying(true);
+        // e.target.lastChild.firstChild.style.animationPlayState = 'running';
+        setPause(false)
+    }
 
+    const dropHandlerOccupied = (e) => {
+        e.target.parentElement.parentElement.firstChild.src = '';
+        e.target.parentElement.parentElement.firstChild.src = playUrl;
+        e.target.parentElement.parentElement.firstChild.play();
+        setRecordPlaying(true);
+        console.log(e.target.parentElement.parentElement.lastChild)
+        e.target.parentElement.parentElement.lastChild.firstChild.style.animationPlayState = 'running';
+        setPause(false)
     }
 
     function allowDrop(e) {
@@ -145,8 +157,6 @@ function Albums() {
                 (<div className='album_display' onWheel={scrollAlbums}>
                     <div className='scrollBuffer'></div>
                     {albums && albums.albums.map(album => {
-                        console.log(albums.albums)
-                        console.log(album)
                         sizeAlbums()
                         return (
                             <div className='album'>
@@ -175,11 +185,11 @@ function Albums() {
                     <div className='song_list'>
                         {songs && songs.map(side => {
                             let songSplit = side.songs.split("'")
-                            console.log(songSplit)
+                            // console.log(songSplit)
                             const test = /.*[a-zA-Z0-9]+.*/;
                             let songData = songSplit.filter(item => item.match(test));
                             let url = songData.shift();
-                            console.log(songData)
+                            // console.log(songData)
                             return (
                                 <div className='list'>
                                     <h3 value={`${url}`}>{`Side ${side.side}`}</h3>
@@ -200,7 +210,7 @@ function Albums() {
                                 <button onClick={() => {
                                     setDisplayScroll(true)
                                     setTimeout(sizeAlbums, 10)
-                                    navigator('/albums', {replace: true})
+                                    // navigator('/albums', {replace: true})
                                     // sizeAlbums()
                                 }}>Back</button>
                             </div>
@@ -209,18 +219,18 @@ function Albums() {
                     <div className='record_list'>
                         {songs && songs.map(side => {
                             let songSplit = side.songs.split("'")
-                            console.log(songSplit)
+                            // console.log(songSplit)
                             const test = /.*[a-zA-Z0-9]+.*/;
                             let songData = songSplit.filter(item => item.match(test));
                             let url = songData.shift();
-                            console.log(url)
-                            console.log(songData)
+                            // console.log(url)
+                            // console.log(songData)
                             return (
                                 <div className='record' value={url} draggable='true' onDrag={e => {
                                     e.preventDefault()
                                     setPlayUrl(e.target.attributes.value.nodeValue)
-                                    console.log(playUrl)
-                                    e.dataTransfer.setData('text/plain', e.target.attributes.value.nodeValue)
+                                    // console.log(playUrl)
+                                    // e.dataTransfer.setData('text/plain', e.target.attributes.value.nodeValue)
                                     }}>
                                     <h3>{`Side ${side.side}`}</h3>
                                     {/* <image src='/record.png'></image> */}
@@ -231,14 +241,8 @@ function Albums() {
                 </div>
                 </div>
             }
-            <div className='record_player'  onClick={e => {
-                console.log('click')
-            }} accept="text/plain" onDrop={dropHandler}>
-            </div>
-            <div className='record_player' onDrop={e => {
-                // e.target.Play()
-                console.log('sup')
-            }}></div>
+           
+            
                 <div className='record_player'
 
                     draggable='true'
@@ -258,26 +262,38 @@ function Albums() {
                     >
                     <audio ></audio>
                     <div
-                    draggable='true'
-                    onDragEnd={e => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        e.target.parentElement.parentElement.firstChild.pause()
-                        setPlayUrl('')
-                        setRecordPlaying(false)
-                    }}>
+                        draggable='true'
+                        onClick={e => {
+                            setPause(!pause)
+                            if(e.target.parentElement.parentElement.firstChild) {
+                                if(pause) {
+                                    e.target.parentElement.parentElement.firstChild.play();
+                                    e.target.style.animationPlayState = 'running';
+                                } else {
+                                    e.target.parentElement.parentElement.firstChild.pause();
+                                    e.target.style.animationPlayState = 'paused';
+                                }
+                            }
+                        }}
+                        onDragEnd={e => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            e.target.parentElement.parentElement.firstChild.pause()
+                            setPlayUrl('')
+                            setRecordPlaying(false)
+                        }}>
+                        
                         {recordPlaying && 
-                            <img src='https://bucketeer-c8e3fd63-1c26-4660-8f22-707352f21248.s3.amazonaws.com/20220121_135233271_iOS.png'
-                            // draggable='true'
-                            // onDragStart={e => {
-                            //     e.stopPropagation()
-                            //     console.log(e)
-                            //     e.target.nextSibline.pause()
-                            // }}
-                            ></img>
+                            <img onDrop={e => {
+                                e.stopPropagation()
+                                dropHandlerOccupied(e)
+                            }} 
+                            
+                            onDragOver={allowDrop}
+                            onDragLeave={revertDrop}
+                            src='https://bucketeer-c8e3fd63-1c26-4660-8f22-707352f21248.s3.amazonaws.com/20220121_135233271_iOS.png'></img>
                         }
                     </div>
-                    Drag and Drop Audio Here
                 </div>
             <Outlet />
         </div>

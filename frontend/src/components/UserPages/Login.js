@@ -15,7 +15,7 @@ function Login() {
     const submitUser = async (e) => {
         e.preventDefault();
         dispatch(sessionActions.loginSessionUser({'user': [username, password]}))
-        navigate('/albums', {replace: false})
+        navigate('/albums', {replace: true})
     }
 
     return (
@@ -24,7 +24,7 @@ function Login() {
             <label /> Username
             <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
             <label /> Password
-            <input type={'text'} onChange={e => setPassword(e.target.value)} value={password}/>
+            <input type={'password'} onChange={e => setPassword(e.target.value)} value={password}/>
             <button onClick={submitUser}>Submit</button>
             <p>Need an account? <NavLink to='/signup'>Sign Up</NavLink></p>
         </form>

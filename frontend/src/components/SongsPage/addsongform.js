@@ -93,6 +93,7 @@ export default function SongForm() {
         let data = [songs, albumId];
         console.log(data);
         dispatch(songsActions.addNewSongs(data));
+        navigate('/albums')
     }
 
     function deleteSong(key, index) {
@@ -193,8 +194,8 @@ export default function SongForm() {
                 </div>
                 )
             }
-            {minimize && imageLoading && <p onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading</p>}
-            {minimize && !imageLoading && <p onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading Complete</p>}
+            {minimize && imageLoading && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading</p>}
+            {minimize && !imageLoading && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading Complete</p>}
         </>
     )
 }

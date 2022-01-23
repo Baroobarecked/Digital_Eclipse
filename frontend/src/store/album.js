@@ -62,8 +62,10 @@ export default function albumsReducer(state = null, action) {
             return {'albums': [...action.albums]}
         case ADD_ALBUM:
             console.log(action)
+            console.log(state)
             newState = {...state};
-            newState[action.album.id] = action.album;
+            console.log(newState['albums'])
+            newState['albums'].push(action.album);
             return newState;
         case DELETE_ALBUM:
 
