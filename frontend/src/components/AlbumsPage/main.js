@@ -16,6 +16,43 @@ function Albums() {
     const [playUrl, setPlayUrl] = useState(null)
     const [recordPlaying, setRecordPlaying] = useState(false)
     const [pause, setPause] = useState(false)
+    const [barHeights, setBarHeights] = useState([])
+    const [bars, setBars] = useState([])
+    const [bufferInterval, setBufferInterval] = useState()
+    const [analyserNode, setAnalyserNode] = useState()
+    const [Nirvana, setNirvana] = useState(false)
+
+    
+
+    // let bufferInterval;
+    let audioCtx;
+
+    useEffect(() => {
+        // console.log(barHeights)
+        const client = document.getElementById('soundDisplay');
+        // console.log(displayWidth / barHeights.length)
+        // console.log(bars.length)
+        
+        if(client) {
+            const displayWidth = client.clientWidth;
+            
+            barHeights.forEach((val, index) => {
+                // console.log(val)
+                bars[index] = ((
+                    <div className='soundBar' style={{
+                        width: `${displayWidth / barHeights.length}px`,
+                        height: `${val /2}%`,
+                        background: `linear-gradient(rgb(${val+100}, 50, 50), rgb(50, 50, ${val+100}))`,
+                    }}>
+                    </div>
+                ))
+                setBars(bars);
+            })
+        }
+
+
+
+    }, [barHeights])
 
     useEffect(() => {
         // console.log(currentUser)
@@ -24,6 +61,70 @@ function Albums() {
             // console.log(albums)
         }
     }, [currentUser])
+
+    const connectAudio = () => {
+        
+        let dataArray;
+        
+        let analyser;
+        // console.log(audioCtx)
+        
+        if(!audioCtx) {
+            let AudioContext = window.AudioContext || window.webkitAudioContext;
+
+            audioCtx = new AudioContext({
+                latencyHint: 'playback',
+                sampleRate: 96000,
+            })
+    
+            let aud = document.getElementById('audio_player')
+    
+            let audSource = audioCtx.createMediaElementSource(aud)
+        
+            analyser = new AnalyserNode(audioCtx, {
+                fftSize: 1024,
+            })
+
+            setAnalyserNode(analyser)
+    
+            audSource.connect(analyser).connect(audioCtx.destination);
+    
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+        }
+    
+
+        setBufferInterval(setInterval(() => {
+            void analyser.getByteFrequencyData(dataArray);
+
+            setBarHeights([...dataArray])
+            setBars([])
+    
+            // console.log(dataArray)
+
+        }, 100))
+
+    }
+
+    function resumeMonitoring() {
+
+        if(analyserNode) {
+            let dataArray = new Uint8Array(analyserNode.frequencyBinCount);
+            
+        
+    
+            setBufferInterval(setInterval(() => {
+                void analyserNode.getByteFrequencyData(dataArray);
+    
+                setBarHeights([...dataArray])
+                setBars([])
+        
+                // console.log(dataArray)
+    
+            }, 100))
+
+        }
+
+    }
     
     let timeout;
     let changeSize;
@@ -65,6 +166,7 @@ function Albums() {
         
         
     }
+
 
     const sizeAlbums = () => {
         const albumDisplay = document.getElementsByClassName('album_display')[0]
@@ -135,7 +237,7 @@ function Albums() {
         e.target.parentElement.parentElement.firstChild.src = playUrl;
         e.target.parentElement.parentElement.firstChild.play();
         setRecordPlaying(true);
-        console.log(e.target.parentElement.parentElement.lastChild)
+        // console.log(e.target.parentElement.parentElement.lastChild)
         e.target.parentElement.parentElement.lastChild.firstChild.style.animationPlayState = 'running';
         setPause(false)
     }
@@ -153,6 +255,16 @@ function Albums() {
 
     return (
         <div className='album_main'>
+            {!displayScroll && 
+                <>
+                    <div id='soundDisplay'>
+                        {bars}   
+                    </div>
+                    <div id='soundDisplay2'>
+                        {bars}   
+                    </div>
+                </>
+            }
             {displayScroll && 
                 (<div className='album_display' onWheel={scrollAlbums}>
                     <div className='scrollBuffer'></div>
@@ -161,8 +273,9 @@ function Albums() {
                         return (
                             <div className='album'>
                                 <div className='album_wrapper' value={album} onClick={e => {
-                                    setAlbumData(album)
+                                    setAlbumData(album);
                                     albumClick(album);
+                                    resumeMonitoring();
                                     // sizeAlbums()
                                 }} style={{backgroundImage:`url(${album.album_cover})`}}>
                                     <h1>{album.album_title}</h1>
@@ -175,7 +288,7 @@ function Albums() {
                     <div className='scrollBuffer'></div>
                 </div>)
             }
-            {!displayScroll && 
+            {!displayScroll && !Nirvana &&
                 <div className='album_display' style={{
                     display: 'flex',
                     // flexDirection: 'column',
@@ -210,9 +323,13 @@ function Albums() {
                                 <button onClick={() => {
                                     setDisplayScroll(true)
                                     setTimeout(sizeAlbums, 10)
+                                    clearInterval(bufferInterval)
                                     // navigator('/albums', {replace: true})
                                     // sizeAlbums()
                                 }}>Back</button>
+                                <button onClick={() => {
+                                    setNirvana(true)
+                                }}>Nirvana</button>
                             </div>
                         </div>
                     </div>
@@ -241,6 +358,31 @@ function Albums() {
                 </div>
                 </div>
             }
+            {!displayScroll && Nirvana && 
+                <div className='album_display'  style={{
+                    display: 'flex',
+                    // flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: 'none'
+                }}
+                onClick={() => {
+                    setNirvana(false)
+                }}
+                onMouseMove={() => {
+                    let message = document.getElementById('nirvana');
+                    message.style.visibility = 'visible';
+                    setTimeout(() => {
+                        message.style.visibility = 'hidden';
+                    }, 5000)
+                }}
+                > 
+                <h1 id='nirvana' style={{
+                    visibility: 'hidden',
+                    color: 'white',
+                }}>Click Here to Exit Nirvana</h1>
+                </div>
+            }
            
             
                 <div className='record_player'
@@ -251,16 +393,18 @@ function Albums() {
                         e.target.firstChild.pause()
                         setPlayUrl('')
                         setRecordPlaying(false)
+                        // clearInterval(bufferInterval)
                     }}
 
                     onDrop={e => {
                         dropHandler(e)
+                        connectAudio(e)
                     }} 
 
                     onDragOver={allowDrop}
                     onDragLeave={revertDrop}
                     >
-                    <audio ></audio>
+                    <audio id='audio_player' crossOrigin='anonymous'></audio>
                     <div
                         draggable='true'
                         onClick={e => {
@@ -269,9 +413,15 @@ function Albums() {
                                 if(pause) {
                                     e.target.parentElement.parentElement.firstChild.play();
                                     e.target.style.animationPlayState = 'running';
+                                    // connectAudio()
                                 } else {
                                     e.target.parentElement.parentElement.firstChild.pause();
                                     e.target.style.animationPlayState = 'paused';
+                                    setTimeout(() => {
+                                        // console.log(bufferInterval)
+                                        // console.log('......................................................................................')
+                                        // clearInterval(bufferInterval)
+                                    }, 100)
                                 }
                             }
                         }}
@@ -279,6 +429,7 @@ function Albums() {
                             e.preventDefault()
                             e.stopPropagation()
                             e.target.parentElement.parentElement.firstChild.pause()
+                            clearInterval(bufferInterval)
                             setPlayUrl('')
                             setRecordPlaying(false)
                         }}>
@@ -295,9 +446,10 @@ function Albums() {
                         }
                     </div>
                 </div>
+            
             <Outlet />
         </div>
     )
 }
 
-export default Albums
+export default Albums;
