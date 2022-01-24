@@ -345,3 +345,20 @@ div.album_wrapper_single {
   display: inline-block;
   background-image: url('../public/smalldeep.jpg');
 }
+
+button {
+  width: 7vw;
+  background: none;
+  border: none;
+  color: white;
+  border-radius: 10vw;
+  /* border: black 3px solid; */
+  background-color: rgba(65, 65, 65, 0.5);
+  box-shadow: 0 0 .5vw black, 0 0 .5vw black;
+  margin: .5vw;
+}
+
+button:hover {
+  background-color: black;
+  border: navy 2px solid;
+}
