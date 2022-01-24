@@ -14,6 +14,7 @@ export default function SongForm() {
     const albumSongs = useSelector(state => state.songs)
     const [side, setSide] = useState(0);
     const [minimize, setMinimize] = useState(false)
+    const [displayForm, setDisplayForm] = useState(false);
 
     
     useEffect(() => {
@@ -28,7 +29,7 @@ export default function SongForm() {
                 setSongs(songs)
                 setSide(side.side)
             })
-            setAudioUrl(url)
+            setDisplayForm(true)
         }
     }, [albumSongs, audioUrl])
 
@@ -159,7 +160,7 @@ export default function SongForm() {
                         }
                         {imageLoading && <p>Uploading...</p>}
                         
-                        {audioUrl && side > 0 && 
+                        {displayForm && side > 0 && 
                             <>
                                 <h3>Editing Side {i}</h3>
                                 
@@ -222,7 +223,8 @@ export default function SongForm() {
                 )
             }
             {minimize && imageLoading && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading</p>}
-            {minimize && !imageLoading && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading Complete</p>}
+            {minimize && !imageLoading && !audioUrl && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Return to Form</p>}
+            {minimize && !imageLoading && audioUrl && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Upload Complete</p>}
         </>
     )
 }

@@ -201,8 +201,10 @@ input:focus {
 
 div.album_wrapper_single {
   position: relative;
-  width: 70vh;
-  height: 70vh;
+  width: 35vw;
+  height: 35vw;
+  max-width: 70vh;
+  max-height: 70vh;
   padding: 0px;
   z-index: 10;
   background-size: cover;
@@ -279,6 +281,10 @@ div.album_wrapper_single {
   align-items: center;
 }
 
+.album_single_wrapper {
+
+}
+
 .record_player {
   width: 100%;
   display: flex;
@@ -313,6 +319,12 @@ div.album_wrapper_single {
 
 .logout {
   grid-area: logout;
+  display: flex;
+  justify-content: end;
+}
+
+.logout button {
+  font-size: 1vw;
 }
 
 .uploading {
@@ -356,6 +368,14 @@ button, .album_single h1 {
   background-color: rgba(65, 65, 65, 0.5);
   box-shadow: 0 0 .5vw black, 0 0 .5vw black;
   margin: .5vw;
+  height: 1.5vw;
+  font-size: 1vw;
+}
+
+.album_single h1 {
+  width: 100%;
+  font-size: 1.5vw;
+  height: 2vw;
 }
 
 form button {
@@ -373,4 +393,16 @@ button:hover {
 .album_single h1 {
   display: flex;
   justify-content: center;
+}
+
+#album_buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#album_buttons button {
+  width: 4vw;
+  height: 1.5vw;
+  font-size: .6vw;
 }

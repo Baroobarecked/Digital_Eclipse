@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import * as albumActions from '../../store/album'
 import * as songActions from '../../store/song'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useMatch } from 'react-router-dom'
 
 function Albums() {
     const albums = useSelector(state => state.albums)
@@ -22,6 +22,7 @@ function Albums() {
     const [analyserNode, setAnalyserNode] = useState()
     const [Nirvana, setNirvana] = useState(false)
     const [displayButtons, setDisplayButtons] = useState(false)
+    const editOpen = useMatch('/albums/:albumId/songs')
 
     useEffect(() => {
         if(!currentUser) {
@@ -311,21 +312,37 @@ function Albums() {
                             {displayButtons && 
                                 <>
                                     <h1>{albumData.album_title}</h1>
-                                    <div>
+                                    <div id='album_buttons'>
                                         <button onClick={(e) => {
                                             e.stopPropagation();
                                             setDisplayScroll(true)
                                             navigator(`/albums/${albumData.id}`)
                                         }}>Edit Album</button>
-                                        <button onClick={e => {
-                                            e.stopPropagation()
-                                            navigator(`/albums/${albumData.id}/songs`)
-                                        }}>Edit Songs</button>
-                                        <button onClick={() => {
-                                            setDisplayScroll(true)
-                                            setTimeout(sizeAlbums, 10)
-                                            clearInterval(bufferInterval)
-                                        }}>Back</button>
+                                        {!editOpen &&
+                                            <>
+                                                <button onClick={e => {
+                                                    e.stopPropagation()
+                                                    navigator(`/albums/${albumData.id}/songs`)
+                                                }}>Edit Songs</button>
+                                                <button onClick={() => {
+                                                    setDisplayScroll(true)
+                                                    setTimeout(sizeAlbums, 10)
+                                                    dispatch(songActions.resetTheSongs())
+                                                    clearInterval(bufferInterval)
+                                                }}>Back</button>
+                                            </>
+                                        }
+                                        {editOpen && 
+                                            <>
+                                                <button onClick={() => {
+                                                    setDisplayScroll(true)
+                                                    setTimeout(sizeAlbums, 10)
+                                                    dispatch(songActions.resetTheSongs())
+                                                    clearInterval(bufferInterval)
+                                                    navigator('/albums')
+                                                }}>Cancel Edit</button>
+                                            </>
+                                        }
                                         <button onClick={() => {
                                             setNirvana(true)
                                         }}>Nirvana</button>

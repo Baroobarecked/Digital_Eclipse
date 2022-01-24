@@ -36,8 +36,6 @@ function App() {
           <Route exact path='signup' element={<SignUp />} />
           <Route exact path='login' element={<Login />} />
         </Route>
-          {/* <Route index element={<Navbar />} />
-        </Route> */}
         <Route exact path='albums' element={<Albums />}>
           <Route index element={<Navbar />} />
           <Route exact path='addalbum' element={<AddAlbum />} />
