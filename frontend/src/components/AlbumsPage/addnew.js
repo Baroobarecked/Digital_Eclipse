@@ -15,14 +15,30 @@ export default function AddAlbum() {
     const [imageLoading, setImageLoading] = useState(false)
     const [albumTitle, setAlbumTitle] = useState(null)
     const currentUser = useSelector(state => state.session.User)
+    const albums = useSelector(state => state.albums.albums)
     const { albumId } = useParams();
     const navigate = useNavigate();
+    const [currentAlbum, setCurrentAlbum] = useState(null);
     
 
     // const updateImage = (e) => {
     //     const file = e.target.files[0];
     //     setImage(file);
     // }
+    useEffect(() => {
+        console.log(albums)
+        albums.forEach(album => {
+            console.log(album)
+            if(album.id == albumId){
+                setCurrentAlbum(album);
+            }
+        })
+        console.log(currentAlbum)
+        if(currentAlbum) {
+            setImageUrl(currentAlbum.album_cover)
+            setAlbumTitle(currentAlbum.album_title)
+        }
+    }, [currentAlbum])
 
     async function getSignedRequest(file) {
         const res = await fetch(`/api/uploads`, {
@@ -90,13 +106,6 @@ export default function AddAlbum() {
         e.target.style.backgroundColor = '#202225';
     }
 
-    function selectFolder(e) {
-        let files = e.target.value;
-        for(let file in files) {
-            getSignedRequest(file)
-        }
-    }
-
     async function submitAlbum (e) {
         e.preventDefault()
         console.log(currentUser)
@@ -111,6 +120,25 @@ export default function AddAlbum() {
         if(res) {
             console.log('time to return')
             navigate(`/albums/${res.album.id}/songs`, {replace: true})
+        }
+
+    }
+
+    async function editAlbum (e) {
+        e.preventDefault()
+        console.log(currentUser)
+        let album = {
+            'album_title': albumTitle,
+            'user_id': currentUser.id,
+            'album_cover': imageUrl,
+            'id': parseInt(albumId)
+        }
+
+        let res = await dispatch(albumActions.editOldAlbum(album));
+        console.log(res)
+        if(res) {
+            console.log('time to return')
+            navigate(`/albums`, {replace: true})
         }
 
     }
@@ -132,9 +160,10 @@ export default function AddAlbum() {
                     >
                     Drag and Drop Album Cover Here
                 </div>
-                <input type="file" onChange={selectFolder} webkitdirectory='true' multiple/>
+                {imageUrl && <p>To change image, upload another.</p>}
                 {(imageLoading) && <p>Loading...</p>}
-                <button onClick={submitAlbum}>Add Album</button>
+                {!albumId && <button onClick={submitAlbum}>Add Album</button>}
+                {albumId && <button onClick={editAlbum}>Edit Album</button>}
             </form>
         </div>
     )

@@ -28,23 +28,19 @@ function Albums() {
     let audioCtx;
 
     useEffect(() => {
-        // console.log(barHeights)
         const client = document.getElementById('soundDisplay');
-        // console.log(displayWidth / barHeights.length)
-        // console.log(bars.length)
         
         if(client) {
             const displayWidth = client.clientWidth;
             
             barHeights.forEach((val, index) => {
-                // console.log(val)
                 bars[index] = ((
                     <div className='soundBar' style={{
                         width: `${displayWidth / barHeights.length}px`,
-                        height: `${val /2}%`,
-                        background: `linear-gradient(rgb(${val+100}, 50, 50), rgb(50, 50, ${val+100}))`,
-                    }}>
-                    </div>
+                        height: `${val / 3}%`,
+                        backgroundAttachment: 'fixed',
+                        backgroundSize: '100vw'
+                    }}></div>
                 ))
                 setBars(bars);
             })
@@ -55,10 +51,8 @@ function Albums() {
     }, [barHeights])
 
     useEffect(() => {
-        // console.log(currentUser)
         if(currentUser) {
-            dispatch(albumActions.getUserAlbums(currentUser.id))
-            // console.log(albums)
+            dispatch(albumActions.getUserAlbums(currentUser.id));
         }
     }, [currentUser])
 
@@ -67,7 +61,6 @@ function Albums() {
         let dataArray;
         
         let analyser;
-        // console.log(audioCtx)
         
         if(!audioCtx) {
             let AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -98,8 +91,6 @@ function Albums() {
 
             setBarHeights([...dataArray])
             setBars([])
-    
-            // console.log(dataArray)
 
         }, 100))
 
@@ -117,8 +108,6 @@ function Albums() {
     
                 setBarHeights([...dataArray])
                 setBars([])
-        
-                // console.log(dataArray)
     
             }, 100))
 
@@ -220,15 +209,11 @@ function Albums() {
 
     const dropHandler = (e) => {
         e.preventDefault();
-        // let data = e.dataTransfer.getData('text');
-        // console.log(data)
-        // e.target.style.backgroundColor = 'green'
         console.log(e.target.firstChild)
         e.target.firstChild.src = '';
         e.target.firstChild.src = playUrl;
         e.target.firstChild.play();
         setRecordPlaying(true);
-        // e.target.lastChild.firstChild.style.animationPlayState = 'running';
         setPause(false)
     }
 
@@ -237,7 +222,6 @@ function Albums() {
         e.target.parentElement.parentElement.firstChild.src = playUrl;
         e.target.parentElement.parentElement.firstChild.play();
         setRecordPlaying(true);
-        // console.log(e.target.parentElement.parentElement.lastChild)
         e.target.parentElement.parentElement.lastChild.firstChild.style.animationPlayState = 'running';
         setPause(false)
     }
@@ -251,6 +235,10 @@ function Albums() {
     function revertDrop(e) {
         e.stopPropagation();
         e.preventDefault();
+    }
+
+    function deleteAlbum(albumId) {
+        dispatch(albumActions.deleteTheAlbum(albumId))
     }
 
     return (
@@ -276,11 +264,13 @@ function Albums() {
                                     setAlbumData(album);
                                     albumClick(album);
                                     resumeMonitoring();
-                                    // sizeAlbums()
                                 }} style={{backgroundImage:`url(${album.album_cover})`}}>
                                     <h1>{album.album_title}</h1>
                                     
-                                    <button>Edit Album</button>
+                                    {/* <button onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigator(`/albums/${album.id}`)
+                                    }}>Edit Album</button> */}
                                 </div>
                             </div>
                         )
@@ -291,18 +281,15 @@ function Albums() {
             {!displayScroll && !Nirvana &&
                 <div className='album_display' style={{
                     display: 'flex',
-                    // flexDirection: 'column',
                     justifyContent: 'center'
                 }}> 
                 <div className='shadow'>
                     <div className='song_list'>
                         {songs && songs.map(side => {
                             let songSplit = side.songs.split("'")
-                            // console.log(songSplit)
                             const test = /.*[a-zA-Z0-9]+.*/;
                             let songData = songSplit.filter(item => item.match(test));
                             let url = songData.shift();
-                            // console.log(songData)
                             return (
                                 <div className='list'>
                                     <h3 value={`${url}`}>{`Side ${side.side}`}</h3>
@@ -319,38 +306,39 @@ function Albums() {
                         <div className='album_wrapper_single' value={albumData} style={{backgroundImage:`url(${albumData.album_cover})`}}>
                             <h1>{albumData.album_title}</h1>
                             <div>
-                                <button>Edit Album</button>
+                                <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigator(`/albums/${albumData.id}`)
+                                }}>Edit Album</button>
                                 <button onClick={() => {
                                     setDisplayScroll(true)
                                     setTimeout(sizeAlbums, 10)
                                     clearInterval(bufferInterval)
-                                    // navigator('/albums', {replace: true})
-                                    // sizeAlbums()
                                 }}>Back</button>
                                 <button onClick={() => {
                                     setNirvana(true)
                                 }}>Nirvana</button>
+                                <button onClick={() => {
+                                    deleteAlbum(albumData.id)
+                                    setDisplayScroll(true)
+                                    setTimeout(sizeAlbums, 10)
+                                    clearInterval(bufferInterval)
+                                }}>Delete</button>
                             </div>
                         </div>
                     </div>
                     <div className='record_list'>
                         {songs && songs.map(side => {
                             let songSplit = side.songs.split("'")
-                            // console.log(songSplit)
                             const test = /.*[a-zA-Z0-9]+.*/;
                             let songData = songSplit.filter(item => item.match(test));
                             let url = songData.shift();
-                            // console.log(url)
-                            // console.log(songData)
                             return (
                                 <div className='record' value={url} draggable='true' onDrag={e => {
                                     e.preventDefault()
                                     setPlayUrl(e.target.attributes.value.nodeValue)
-                                    // console.log(playUrl)
-                                    // e.dataTransfer.setData('text/plain', e.target.attributes.value.nodeValue)
                                     }}>
                                     <h3>{`Side ${side.side}`}</h3>
-                                    {/* <image src='/record.png'></image> */}
                                 </div>
                             )
                         })}
@@ -361,7 +349,6 @@ function Albums() {
             {!displayScroll && Nirvana && 
                 <div className='album_display'  style={{
                     display: 'flex',
-                    // flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
                     background: 'none'
@@ -393,7 +380,6 @@ function Albums() {
                         e.target.firstChild.pause()
                         setPlayUrl('')
                         setRecordPlaying(false)
-                        // clearInterval(bufferInterval)
                     }}
 
                     onDrop={e => {
@@ -413,15 +399,9 @@ function Albums() {
                                 if(pause) {
                                     e.target.parentElement.parentElement.firstChild.play();
                                     e.target.style.animationPlayState = 'running';
-                                    // connectAudio()
                                 } else {
                                     e.target.parentElement.parentElement.firstChild.pause();
                                     e.target.style.animationPlayState = 'paused';
-                                    setTimeout(() => {
-                                        // console.log(bufferInterval)
-                                        // console.log('......................................................................................')
-                                        // clearInterval(bufferInterval)
-                                    }, 100)
                                 }
                             }
                         }}

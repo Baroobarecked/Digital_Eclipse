@@ -40,6 +40,7 @@ function App() {
         <Route exact path='albums' element={<Albums />}>
           <Route index element={<Navbar />} />
           <Route exact path='addalbum' element={<AddAlbum />} />
+          <Route exact path=':albumId' element={<AddAlbum />} />
           <Route exact path=':albumId/songs' element={<SongForm />} />
         </Route>
       </Routes>

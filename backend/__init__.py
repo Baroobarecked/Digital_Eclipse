@@ -10,10 +10,11 @@ from backend.config import Config
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask_jsglue import JSGlue
 from backend.models.users import User
 
-
 app = Flask(__name__)
+jsglue = JSGlue(app)
 
 login = LoginManager(app)
 # login.login_view = 'users.unauthorized'

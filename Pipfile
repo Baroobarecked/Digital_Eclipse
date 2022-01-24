@@ -15,6 +15,7 @@ flask-wtf = "*"
 boto3 = "*"
 flask-migrate = "*"
 flask-cors = "*"
+flask-jsglue = "*"
 
 [dev-packages]
 

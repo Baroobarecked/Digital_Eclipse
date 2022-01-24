@@ -77,7 +77,6 @@ input:focus {
   background-image: url('../public/bluestar.jpg');
   background-size: cover;
   overflow: hidden;
-  z-index: -2;
 }
 
 .record_image {
@@ -344,4 +343,5 @@ div.album_wrapper_single {
 
 .soundBar {
   display: inline-block;
+  background-image: url('../public/smalldeep.jpg');
 }
