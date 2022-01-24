@@ -19,9 +19,7 @@ function Login() {
     }
     const loginDemo = async (e) => {
         e.preventDefault();
-        setUsername('demo')
-        setPassword('password')
-        dispatch(sessionActions.loginSessionUser({'user': [username, password]}))
+        await dispatch(sessionActions.loginSessionUser({'user': ['demo', 'password']}))
         navigate('/albums', {replace: true})
     }
 

@@ -22,7 +22,12 @@ function Albums() {
     const [analyserNode, setAnalyserNode] = useState()
     const [Nirvana, setNirvana] = useState(false)
 
-    
+    useEffect(() => {
+        if(!currentUser) {
+            navigator('/login')
+        }
+
+    }, [])
 
     // let bufferInterval;
     let audioCtx;
