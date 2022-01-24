@@ -214,20 +214,12 @@ function Albums() {
 
     const dropHandler = (e) => {
         e.preventDefault();
-        console.log(e.target.firstChild)
-        e.target.firstChild.src = '';
-        e.target.firstChild.src = playUrl;
-        e.target.firstChild.play();
+        let player = document.getElementById('audio_player')
+        player.src = '';
+        player.src = playUrl;
+        player.play();
         setRecordPlaying(true);
-        setPause(false)
-    }
-
-    const dropHandlerOccupied = (e) => {
-        e.target.parentElement.parentElement.firstChild.src = '';
-        e.target.parentElement.parentElement.firstChild.src = playUrl;
-        e.target.parentElement.parentElement.firstChild.play();
-        setRecordPlaying(true);
-        e.target.parentElement.parentElement.lastChild.firstChild.style.animationPlayState = 'running';
+        player.style.animationPlayState = 'running';
         setPause(false)
     }
 
@@ -338,6 +330,9 @@ function Albums() {
                         </div>
                     </div>
                     <div className='record_list'>
+                        <h2 style={{
+                            color: 'white'
+                        }}>Drag and drop song at bottom center (work in progress)</h2>
                         {songs && songs.map(side => {
                             let songSplit = side.songs.split("'")
                             const test = /.*[a-zA-Z0-9]+.*/;
@@ -427,7 +422,7 @@ function Albums() {
                         {recordPlaying && 
                             <img onDrop={e => {
                                 e.stopPropagation()
-                                dropHandlerOccupied(e)
+                                dropHandler(e)
                             }} 
                             
                             onDragOver={allowDrop}
