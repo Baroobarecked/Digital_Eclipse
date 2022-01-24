@@ -21,6 +21,7 @@ function Albums() {
     const [bufferInterval, setBufferInterval] = useState()
     const [analyserNode, setAnalyserNode] = useState()
     const [Nirvana, setNirvana] = useState(false)
+    const [displayButtons, setDisplayButtons] = useState(false)
 
     useEffect(() => {
         if(!currentUser) {
@@ -300,33 +301,43 @@ function Albums() {
                         })}
                     </div>
                     <div className='album_single'>
-                        <div className='album_wrapper_single' value={albumData} style={{backgroundImage:`url(${albumData.album_cover})`}}>
-                            <h1>{albumData.album_title}</h1>
-                            <div>
-                                <button onClick={(e) => {
-                                    e.stopPropagation();
-                                    setDisplayScroll(true)
-                                    navigator(`/albums/${albumData.id}`)
-                                }}>Edit Album</button>
-                                <button onClick={e => {
-                                    e.stopPropagation()
-                                    navigator(`/albums/${albumData.id}/songs`)
-                                }}>Edit Songs</button>
-                                <button onClick={() => {
-                                    setDisplayScroll(true)
-                                    setTimeout(sizeAlbums, 10)
-                                    clearInterval(bufferInterval)
-                                }}>Back</button>
-                                <button onClick={() => {
-                                    setNirvana(true)
-                                }}>Nirvana</button>
-                                <button onClick={() => {
-                                    deleteAlbum(albumData.id)
-                                    setDisplayScroll(true)
-                                    setTimeout(sizeAlbums, 10)
-                                    clearInterval(bufferInterval)
-                                }}>Delete</button>
-                            </div>
+                        <div className='album_wrapper_single' value={albumData} style={{backgroundImage:`url(${albumData.album_cover})`}}
+                        onMouseEnter={() => 
+                            setDisplayButtons(true)
+                        }
+                        onMouseLeave={() => 
+                            setDisplayButtons(false)
+                        }>
+                            {displayButtons && 
+                                <>
+                                    <h1>{albumData.album_title}</h1>
+                                    <div>
+                                        <button onClick={(e) => {
+                                            e.stopPropagation();
+                                            setDisplayScroll(true)
+                                            navigator(`/albums/${albumData.id}`)
+                                        }}>Edit Album</button>
+                                        <button onClick={e => {
+                                            e.stopPropagation()
+                                            navigator(`/albums/${albumData.id}/songs`)
+                                        }}>Edit Songs</button>
+                                        <button onClick={() => {
+                                            setDisplayScroll(true)
+                                            setTimeout(sizeAlbums, 10)
+                                            clearInterval(bufferInterval)
+                                        }}>Back</button>
+                                        <button onClick={() => {
+                                            setNirvana(true)
+                                        }}>Nirvana</button>
+                                        <button onClick={() => {
+                                            deleteAlbum(albumData.id)
+                                            setDisplayScroll(true)
+                                            setTimeout(sizeAlbums, 10)
+                                            clearInterval(bufferInterval)
+                                        }}>Delete</button>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
                     <div className='record_list'>
