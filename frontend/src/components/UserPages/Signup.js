@@ -20,9 +20,11 @@ function SignUp() {
     const submitUser = async (e) => {
         e.preventDefault();
         let res = await dispatch(sessionActions.setSessionUser({'user': [firstName, lastName, username, email, password, defualtImage]}))
-        if(res['errors']) {
+        console.log(res)
+        if(res) {
             setErrors(res['errors'])
         } else {
+            console.log('in here')
             navigate('/albums')
         }
     }
