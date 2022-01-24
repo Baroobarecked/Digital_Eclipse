@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import * as sessionActions from '../../store/session'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -14,13 +14,16 @@ function SignUp() {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState([]);
+    const navigate = useNavigate();
 
     const submitUser = async (e) => {
         e.preventDefault();
         let res = await dispatch(sessionActions.setSessionUser({'user': [firstName, lastName, username, email, password, defualtImage]}))
         if(res['errors']) {
             setErrors(res['errors'])
+        } else {
+            navigate('/albums')
         }
     }
 

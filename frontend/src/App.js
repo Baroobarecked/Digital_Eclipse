@@ -32,6 +32,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='' element={<UserModal />}>
+          <Route index element={<Navbar />} />
           <Route exact path='signup' element={<SignUp />} />
           <Route exact path='login' element={<Login />} />
         </Route>
