@@ -262,7 +262,7 @@ div.album_wrapper_single {
 }
 
 .record {
-  background-image: url('../public/nobackgroundrecord2.png');
+  background-image: url('../public/tinyrecord.png');
   background-size: contain;
   width: 25vh;
   height: 25vh;
@@ -356,6 +356,13 @@ button, .album_single h1 {
   background-color: rgba(65, 65, 65, 0.5);
   box-shadow: 0 0 .5vw black, 0 0 .5vw black;
   margin: .5vw;
+}
+
+form button {
+  width: 100%;
+  padding: 5px;
+  margin: 0px;
+  margin-top: 10px;
 }
 
 button:hover {

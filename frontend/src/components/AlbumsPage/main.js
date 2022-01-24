@@ -438,7 +438,7 @@ function Albums() {
                             
                             onDragOver={allowDrop}
                             onDragLeave={revertDrop}
-                            src='https://bucketeer-c8e3fd63-1c26-4660-8f22-707352f21248.s3.amazonaws.com/nobackgroundrecord2.png'></img>
+                            src='https://bucketeer-c8e3fd63-1c26-4660-8f22-707352f21248.s3.amazonaws.com/a19cbc8c-d211-413f-9d39-97a7ae6fefca720record.png'></img>
                         }
                     </div>
                 </div>
