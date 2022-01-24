@@ -54,3 +54,43 @@ def addSongs():
             all_sides.append(side.to_dict())
 
     return { 'songs': all_sides }
+
+@song_routes.route('', methods=['PUT'])
+@login_required
+def editSongs():
+    data = request.json['songs']
+    print('...........')
+    print(data)
+    print('...........')
+
+    songs = data[0]
+    album_id = data[1]
+    print(songs)
+    print(album_id)
+    print('...........')
+    form = SongsForm()
+
+    all_sides = []
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        oldSongs = Song.query.filter(Song.record_id == album_id).all()
+        for data in oldSongs:
+            db.session.delete(data)
+            db.session.commit()
+
+        index = 0
+        for data in songs.values():
+            print(data)
+            index = index + 1
+            # url = data.pop(0)
+            song_titles = data
+            side = Song(
+                record_id=album_id,
+                songs=f'{song_titles}',
+                side=index
+            )
+            db.session.add(side)
+            db.session.commit()
+            all_sides.append(side.to_dict())
+
+    return { 'songs': all_sides }

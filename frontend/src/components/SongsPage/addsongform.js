@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import { useDispatch } from 'react-redux';
+import {useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import * as songsActions from '../../store/song';
 
@@ -11,10 +11,26 @@ export default function SongForm() {
     const navigate = useNavigate();
     const [songs, setSongs] = useState({})
     const [songToAdd, setSongToAdd] = useState('')
-
+    const albumSongs = useSelector(state => state.songs)
     const [side, setSide] = useState(0);
     const [minimize, setMinimize] = useState(false)
 
+    
+    useEffect(() => {
+        if(albumSongs) {
+            let url
+            albumSongs.forEach(side => {
+                let songSplit = side.songs.split("'")
+                const test = /.*[a-zA-Z0-9]+.*/;
+                let songData = songSplit.filter(item => item.match(test));
+                url = songData.shift();
+                songs[`Side ${side.side}`] = [url, ...songData]
+                setSongs(songs)
+                setSide(side.side)
+            })
+            setAudioUrl(url)
+        }
+    }, [albumSongs, audioUrl])
 
     async function getSignedRequest(file) {
         const res = await fetch(`/api/uploads`, {
@@ -96,6 +112,14 @@ export default function SongForm() {
         navigate('/albums')
     }
 
+    function editSongs(e) {
+        e.preventDefault();
+        let data = [songs, albumId];
+        console.log(data);
+        dispatch(songsActions.editAlbumSongs(data));
+        navigate('/albums')
+    }
+
     function deleteSong(key, index) {
         songs[key].splice(index, 1)
         setSongs(songs)
@@ -164,8 +188,6 @@ export default function SongForm() {
 
                                 <ul>
                                     {Object.keys(songs) && Object.keys(songs).map(key => {
-                                        console.log(key)
-                                        console.log(songs[key])
                                         return (
                                             <>
                                                 <h3>{key}</h3>
@@ -185,8 +207,13 @@ export default function SongForm() {
                                             </>
                                         )
                                     })}
-                                </ul> 
-                                <button onClick={submitSongs}>Add Side</button>
+                                </ul>
+                                {!albumSongs && 
+                                    <button onClick={submitSongs}>Add to Album</button>
+                                } 
+                                {albumSongs && 
+                                    <button onClick={editSongs}>Edit Album Songs</button>
+                                } 
                             </>
                         }            
                         

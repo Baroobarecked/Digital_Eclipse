@@ -308,8 +308,13 @@ function Albums() {
                             <div>
                                 <button onClick={(e) => {
                                     e.stopPropagation();
+                                    setDisplayScroll(true)
                                     navigator(`/albums/${albumData.id}`)
                                 }}>Edit Album</button>
+                                <button onClick={e => {
+                                    e.stopPropagation()
+                                    navigator(`/albums/${albumData.id}/songs`)
+                                }}>Edit Songs</button>
                                 <button onClick={() => {
                                     setDisplayScroll(true)
                                     setTimeout(sizeAlbums, 10)
