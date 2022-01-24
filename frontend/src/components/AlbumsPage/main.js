@@ -44,7 +44,7 @@ function Albums() {
                         width: `${displayWidth / barHeights.length}px`,
                         height: `${val / 3}%`,
                         backgroundAttachment: 'fixed',
-                        backgroundSize: '100vw'
+                        backgroundSize: '100vw 100vh'
                     }}></div>
                 ))
                 setBars(bars);
