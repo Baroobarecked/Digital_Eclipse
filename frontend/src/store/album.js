@@ -3,6 +3,7 @@ const GET_ALBUMS = '/albums/GET_ALBUMS';
 const ADD_ALBUM = '/albums/ADD_ALBUM';
 const EDIT_ALBUM = '/albums/EDIT_ALBUM';
 const DELETE_ALBUM = '/albums/DELETE_ALBUM';
+const FILTER_ALBUMS = '/albums/FILTER_ALBUMS';
 
 //Action Creators
 function getAlbums(albums) {
@@ -27,6 +28,12 @@ function deleteAlbum(albumId) {
     return {
         type: DELETE_ALBUM,
         albumId
+    }
+}
+function filterAlbums(searchVal) {
+    return {
+        type: FILTER_ALBUMS,
+        searchVal
     }
 }
 
@@ -95,11 +102,16 @@ export const deleteTheAlbum = albumId => async dispatch => {
     }
 }
 
+export const filterTheAlbums = searchVal => async dispatch => {
+    dispatch(filterAlbums(searchVal))
+}
+let storeState;
 //Reducer
 export default function albumsReducer(state = null, action) {
     let newState = {};
     switch(action.type) {
         case GET_ALBUMS:
+            storeState = {'albums': [...action.albums]}
             return {'albums': [...action.albums]}
         case ADD_ALBUM:
             console.log(action)
@@ -117,7 +129,7 @@ export default function albumsReducer(state = null, action) {
             });
             return newState;
         case DELETE_ALBUM:
-            newState = {...state};
+            newState = {...storeState};
             let albums = newState['albums']
             newState['albums'].forEach((album, index) => {
                 if(album.id == action.albumId) {
@@ -126,6 +138,17 @@ export default function albumsReducer(state = null, action) {
             });
             newState['albums'] = albums
             return newState
+        case FILTER_ALBUMS:
+            console.log(storeState)
+            console.log(action.searchVal)
+            newState = {...storeState}
+            newState = {'albums': newState['albums'].filter(album => {
+                console.log(album)
+                if( album.album_title.toLowerCase().includes(action.searchVal.toLowerCase())) {
+                    return album
+                }
+            })}
+            return newState;
         default:
             return state;
     }

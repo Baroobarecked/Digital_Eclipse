@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Logout from "./UserPages/Logout";
+import Search from "./Search";
 
 function Navbar() {
     const user = useSelector(state => state.session.User)
@@ -11,6 +12,7 @@ function Navbar() {
     
     return (
         <div className="navbar">
+            {user && <Search />}
             {user && <Logout />}
         </div>
     )

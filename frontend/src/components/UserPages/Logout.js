@@ -8,8 +8,9 @@ function Logout() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const userLogout = () => {
-        dispatch(sessionActions.removeSessionUser())
+    const userLogout = async (e) => {
+        e.stopPropagation();
+        await dispatch(sessionActions.removeSessionUser())
         navigate('/login')
     }
 

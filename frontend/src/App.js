@@ -11,6 +11,7 @@ import Albums from './components/AlbumsPage/main';
 import SongForm from './components/SongsPage/addsongform'
 import { authenticate } from './store/session';
 import Logout from './components/UserPages/Logout';
+import SplashPage from './components/UserPages/Splash';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +33,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='' element={<UserModal />}>
-          <Route index element={<Navbar />} />
+          <Route index element={<SplashPage />} />
+          <Route path='*' element={<Navbar />} />
           <Route exact path='signup' element={<SignUp />} />
           <Route exact path='login' element={<Login />} />
         </Route>

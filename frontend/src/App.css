@@ -304,7 +304,7 @@ div.album_wrapper_single {
 .navbar {
   grid-area: nav;
   display:grid;
-  grid-template-areas: '. . logout';
+  grid-template-areas: 'search . logout';
 }
 
 .logout {
@@ -424,4 +424,30 @@ button:hover {
 .songComponent button:hover, .sideDisplay button:hover {
   background-color: rgb(83, 0, 0);
   border: none;
+}
+
+#splashButtons {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+#test {
+  position: relative;
+  z-index: 3;
+}
+
+#searchBar {
+  display: flex;
+  justify-content: start;
+  padding: 10px;
+}
+
+#searchBar input {
+  background-color: rgba(65, 65, 65, 0.5);
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 2px;
+  height: 1vw;
 }

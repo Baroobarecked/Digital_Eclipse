@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as sessionActions from '../../store/session'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 // import useHistory from 'react-router-dom'
@@ -9,8 +9,10 @@ function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const currentUser = useSelector(state => state.session.User)
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     const submitUser = async (e) => {
         e.preventDefault();
@@ -22,6 +24,12 @@ function Login() {
         await dispatch(sessionActions.loginSessionUser({'user': ['demo', 'password']}))
         navigate('/albums', {replace: true})
     }
+
+    useEffect(() => {
+        if(currentUser) {
+            navigate('/albums')
+        }
+    }, [])
 
     return (
 

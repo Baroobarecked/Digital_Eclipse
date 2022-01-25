@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import * as albumActions from '../../store/album'
 import * as songActions from '../../store/song'
@@ -28,11 +28,8 @@ function Albums() {
         if(!currentUser) {
             navigator('/login')
         }
-
     }, [])
-
-    // let bufferInterval;
-    let audioCtx;
+    
 
     useEffect(() => {
         const client = document.getElementById('soundDisplay');
@@ -68,6 +65,8 @@ function Albums() {
         let dataArray;
         
         let analyser;
+
+        let audioCtx;
         
         if(!audioCtx) {
             let AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -223,12 +222,13 @@ function Albums() {
         setRecordPlaying(true);
         player.style.animationPlayState = 'running';
         setPause(false)
+        resumeMonitoring()
     }
 
     function allowDrop(e) {
         e.stopPropagation();
         e.preventDefault();
-
+        connectAudio()
     }
 
     function revertDrop(e) {
@@ -238,6 +238,26 @@ function Albums() {
 
     function deleteAlbum(albumId) {
         dispatch(albumActions.deleteTheAlbum(albumId))
+    }
+
+    function playAudio(e) {
+        document.getElementById('audio_player').play();
+        e.target.style.animationPlayState = 'running';
+        resumeMonitoring();
+    }
+
+    function pauseAudio(e) {
+        document.getElementById('audio_player').pause();
+        e.target.style.animationPlayState = 'paused';
+        clearInterval(bufferInterval);
+    }
+
+    function stopAudio(e) {
+        e.preventDefault()
+        e.stopPropagation()
+        document.getElementById('audio_player').pause()
+        clearInterval(bufferInterval)
+        setRecordPlaying(false)
     }
 
     return (
@@ -265,11 +285,6 @@ function Albums() {
                                     resumeMonitoring();
                                 }} style={{backgroundImage:`url(${album.album_cover})`}}>
                                     <h1>{album.album_title}</h1>
-                                    
-                                    {/* <button onClick={(e) => {
-                                        e.stopPropagation();
-                                        navigator(`/albums/${album.id}`)
-                                    }}>Edit Album</button> */}
                                 </div>
                             </div>
                         )
@@ -410,14 +425,11 @@ function Albums() {
                     draggable='true'
 
                     onDragStart={e => {
-                        e.target.firstChild.pause()
-                        setPlayUrl('')
-                        setRecordPlaying(false)
+                        stopAudio(e)
                     }}
 
                     onDrop={e => {
                         dropHandler(e)
-                        connectAudio(e)
                     }} 
 
                     onDragOver={allowDrop}
@@ -430,21 +442,14 @@ function Albums() {
                             setPause(!pause)
                             if(e.target.parentElement.parentElement.firstChild) {
                                 if(pause) {
-                                    e.target.parentElement.parentElement.firstChild.play();
-                                    e.target.style.animationPlayState = 'running';
+                                    playAudio(e)
                                 } else {
-                                    e.target.parentElement.parentElement.firstChild.pause();
-                                    e.target.style.animationPlayState = 'paused';
+                                    pauseAudio(e)
                                 }
                             }
                         }}
                         onDragEnd={e => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            e.target.parentElement.parentElement.firstChild.pause()
-                            clearInterval(bufferInterval)
-                            setPlayUrl('')
-                            setRecordPlaying(false)
+                            stopAudio(e)
                         }}>
                         
                         {recordPlaying && 
