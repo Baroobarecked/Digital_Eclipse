@@ -24,7 +24,7 @@ export default function Search() {
 
     return (
         <div id="searchBar">
-            <input type={'text'} value={searchValue} onChange={e => setSearchValue(e.target.value)} />
+            <input type={'text'} value={searchValue} placeholder="Search..." onChange={e => setSearchValue(e.target.value)} />
 
         </div>
     )

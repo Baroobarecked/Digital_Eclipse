@@ -220,7 +220,7 @@ function Albums() {
         player.src = playUrl;
         player.play();
         setRecordPlaying(true);
-        player.style.animationPlayState = 'running';
+        document.getElementById('record_image').style.animationPlayState = 'running';
         setPause(false)
         resumeMonitoring()
     }
@@ -242,13 +242,13 @@ function Albums() {
 
     function playAudio(e) {
         document.getElementById('audio_player').play();
-        e.target.style.animationPlayState = 'running';
+        document.getElementById('record_image').style.animationPlayState = 'running';
         resumeMonitoring();
     }
 
     function pauseAudio(e) {
         document.getElementById('audio_player').pause();
-        e.target.style.animationPlayState = 'paused';
+        document.getElementById('record_image').style.animationPlayState = 'paused';
         clearInterval(bufferInterval);
     }
 
@@ -256,7 +256,7 @@ function Albums() {
         e.preventDefault()
         e.stopPropagation()
         document.getElementById('audio_player').pause()
-        clearInterval(bufferInterval)
+        // clearInterval(bufferInterval)
         setRecordPlaying(false)
     }
 
@@ -300,13 +300,10 @@ function Albums() {
                 <div className='shadow'>
                     <div className='song_list'>
                         {songs && songs.map(side => {
-                            console.log(side.songs)
                             let songSplit = side.songs.split(/\['|',\s'|'\]|\["|",\s"|"\]|',\s"|",\s'/)
                             const test = /.*[a-zA-Z0-9]+.*/;
                             let songData = songSplit.filter(item => item.match(test));
-                            console.log(songSplit)
                             let url = songData.shift();
-                            console.log(url)
                             return (
                                 <div className='list'>
                                     <h3 value={`${url}`}>{`Side ${side.side}`}</h3>
@@ -376,9 +373,6 @@ function Albums() {
                         </div>
                     </div>
                     <div className='record_list'>
-                        <h2 style={{
-                            color: 'white'
-                        }}>Drag and drop song at bottom center (work in progress)</h2>
                         {songs && songs.map(side => {
                             let songSplit = side.songs.split("'")
                             const test = /.*[a-zA-Z0-9]+.*/;
@@ -438,7 +432,7 @@ function Albums() {
                     onDragOver={allowDrop}
                     onDragLeave={revertDrop}
                     >
-                    <audio id='audio_player' crossOrigin='anonymous'></audio>
+                    <audio id='audio_player' crossOrigin='anonymous' onEnded={e => stopAudio(e)}></audio>
                     <div
                         draggable='true'
                         onClick={e => {
@@ -454,13 +448,17 @@ function Albums() {
                         onDragEnd={e => {
                             stopAudio(e)
                         }}>
+
+                        {!recordPlaying && !displayScroll && <h3 style={{
+                            color: 'white'
+                        }}>Drag record here to begin playing</h3>}
                         
                         {recordPlaying && 
                             <img onDrop={e => {
                                 e.stopPropagation()
                                 dropHandler(e)
                             }} 
-                            
+                            id='record_image'
                             onDragOver={allowDrop}
                             onDragLeave={revertDrop}
                             src='https://bucketeer-c8e3fd63-1c26-4660-8f22-707352f21248.s3.amazonaws.com/a19cbc8c-d211-413f-9d39-97a7ae6fefca720record.png'></img>
