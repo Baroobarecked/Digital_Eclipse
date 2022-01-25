@@ -313,13 +313,13 @@ function Albums() {
                                 <>
                                     <h1>{albumData.album_title}</h1>
                                     <div id='album_buttons'>
-                                        <button onClick={(e) => {
-                                            e.stopPropagation();
-                                            setDisplayScroll(true)
-                                            navigator(`/albums/${albumData.id}`)
-                                        }}>Edit Album</button>
                                         {!editOpen &&
                                             <>
+                                                <button onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDisplayScroll(true)
+                                                    navigator(`/albums/${albumData.id}`)
+                                                }}>Edit Album</button>
                                                 <button onClick={e => {
                                                     e.stopPropagation()
                                                     navigator(`/albums/${albumData.id}/songs`)

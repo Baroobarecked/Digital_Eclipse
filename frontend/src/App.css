@@ -107,18 +107,12 @@ input:focus {
 
 .drop_zone {
   width: 100%;
-  height: 100px;
+  height: 10vh;
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  background-color: maroon;
-}
-
-.react-fetch-progress-bar {
-  position: relative;
-  background-color: red !important;
-  height: 10px;
-  width: 200px;
+  background-color: navy;
+  border-radius: 2px;
 }
 
 .album_main {
@@ -281,10 +275,6 @@ div.album_wrapper_single {
   align-items: center;
 }
 
-.album_single_wrapper {
-
-}
-
 .record_player {
   width: 100%;
   display: flex;
@@ -405,4 +395,33 @@ button:hover {
   width: 4vw;
   height: 1.5vw;
   font-size: .6vw;
+}
+
+.sideDisplay, .songComponent {
+  display: flex;
+  align-items: center;
+}
+
+.songComponent {
+  margin-left: 30px;
+  
+}
+
+.sideDisplay button {
+  width: 7.3vw;
+  padding: 3px;
+  margin: 0;
+  margin-left: 10px;
+}
+
+.songComponent button {
+  width: 5vw;
+  margin: 0;
+  margin-left: 10px;
+  font-size: .6vw;
+}
+
+.songComponent button:hover, .sideDisplay button:hover {
+  background-color: rgb(83, 0, 0);
+  border: none;
 }

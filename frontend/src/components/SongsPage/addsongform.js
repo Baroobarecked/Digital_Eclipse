@@ -191,16 +191,18 @@ export default function SongForm() {
                                     {Object.keys(songs) && Object.keys(songs).map(key => {
                                         return (
                                             <>
-                                                <h3>{key}</h3>
-                                                <button onClick={() => deleteSide(key)}>Remove Side</button>
+                                                <div className='sideDisplay'>
+                                                    <h3>{key}</h3>
+                                                    <button onClick={() => deleteSide(key)}>Remove Side</button>
+                                                </div>
                                                 {songs[key].map((song, index)=> {
                                                     if(song && !song.includes('-c8e3fd63-1c26-4660')) {
                                                         return (
-                                                            <li>
+                                                            <li className='songComponent'>
                                                                 {song}
                                                                 <button onClick={() => {
                                                                     deleteSong(key, index)
-                                                                }}>Remove</button>
+                                                                }}>Remove Song</button>
                                                             </li>
                                                         )
                                                     }
@@ -223,7 +225,7 @@ export default function SongForm() {
                 )
             }
             {minimize && imageLoading && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Uploading</p>}
-            {minimize && !imageLoading && !audioUrl && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Return to Form</p>}
+            {minimize && !imageLoading && !audioUrl && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Return to Edit Form</p>}
             {minimize && !imageLoading && audioUrl && <p className='uploading' onClick={() => setMinimize(false)} style={{'color':'white'}}>Upload Complete</p>}
         </>
     )
