@@ -121,7 +121,9 @@ export default function SongForm() {
         navigate('/albums')
     }
 
-    function deleteSong(key, index) {
+    function deleteSong(e, key, index) {
+        e.preventDefault()
+        e.stopPropagation()
         songs[key].splice(index, 1)
         setSongs(songs)
         navigate(`/albums/${albumId}/songs`)
@@ -201,8 +203,8 @@ export default function SongForm() {
                                                         return (
                                                             <li className='songComponent'>
                                                                 {song}
-                                                                <button onClick={() => {
-                                                                    deleteSong(key, index)
+                                                                <button onClick={e => {
+                                                                    deleteSong(e, key, index)
                                                                 }}>Remove Song</button>
                                                             </li>
                                                         )
