@@ -300,10 +300,13 @@ function Albums() {
                 <div className='shadow'>
                     <div className='song_list'>
                         {songs && songs.map(side => {
-                            let songSplit = side.songs.split("'")
+                            console.log(side.songs)
+                            let songSplit = side.songs.split(/\['|',\s'|'\]|\["|",\s"|"\]|',\s"|",\s'/)
                             const test = /.*[a-zA-Z0-9]+.*/;
                             let songData = songSplit.filter(item => item.match(test));
+                            console.log(songSplit)
                             let url = songData.shift();
+                            console.log(url)
                             return (
                                 <div className='list'>
                                     <h3 value={`${url}`}>{`Side ${side.side}`}</h3>

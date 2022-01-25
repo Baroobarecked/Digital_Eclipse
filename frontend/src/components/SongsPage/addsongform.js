@@ -21,7 +21,7 @@ export default function SongForm() {
         if(albumSongs) {
             let url
             albumSongs.forEach(side => {
-                let songSplit = side.songs.split("'")
+                let songSplit = side.songs.split(/\['|',\s'|'\]|\["|",\s"|"\]|',\s"|",\s'/)
                 const test = /.*[a-zA-Z0-9]+.*/;
                 let songData = songSplit.filter(item => item.match(test));
                 url = songData.shift();
@@ -173,6 +173,7 @@ export default function SongForm() {
                                 <button onClick={e => {
                                     e.preventDefault()
                                     let key = `Side ${i}`;
+
                                     if(songs[key]){
                                         console.log(songs[key])
                                         songs[key] = [...songs[key], songToAdd]
