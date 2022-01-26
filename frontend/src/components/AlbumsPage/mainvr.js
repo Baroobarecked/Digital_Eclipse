@@ -10,6 +10,7 @@ export default function VrMain() {
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.session.User)
     const [songComponents, setSongComponents] = useState([])
+    const [pause, setPause] = useState(false)
 
     
     let components = [];
@@ -48,6 +49,33 @@ export default function VrMain() {
         }
 
     })
+
+    useEffect(() => {
+        document.querySelectorAll('.audiofiles').forEach(component => {
+            // console.log(component)
+            component.addEventListener('click', (e) => {
+                e.stopPropagation()
+                let player = document.getElementById('audio_player')
+                // console.log(player.src, e.target.id)
+                if(player.src == e.target.id) {
+                    console.log(pause)
+                    if(pause) {
+                        // console.log(pause)
+                        player.play();
+                        // setPause(!pause)
+                    } else {
+                        player.pause();
+                        // console.log(pause)
+                    }
+                    setPause(!pause)
+                } else {
+                    player.src = ''
+                    player.src = e.target.id;
+                    player.play()
+                }
+            })
+        })
+    }, [songComponents, pause])
         
     async function attachMusic(albumId) {
         let res = await fetch(`/api/albums/${albumId}/songs`)
@@ -61,8 +89,10 @@ export default function VrMain() {
                 let songData = songSplit.filter(item => item.match(test));
                 let url = songData.shift();
                 sides.push(
-                    <a-entity geometry='primitive: box' 
-                        sound={`src: url(${url}); on: click`}></a-entity>
+                    <>
+                        <a-entity geometry='primitive: box' 
+                            class='audiofiles' id={`${url}`}></a-entity>
+                    </>
                 )
             });
             let entity = (
@@ -81,16 +111,17 @@ export default function VrMain() {
     makeAlbums()
     return (
         <>
-            
+            <audio id='audio_player' crossOrigin='anonymous'></audio>
             <a-scene>
                 
-                <a-assets>
+                <a-assets id='assets'>
                 <img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg" />
                 <img id="skyTexture" crossOrigin="anonymous"
                     src={require("./VRassets/3dspace.jpg")} />
                     <img id="groundTexture" src="/deeprecord.jpg" />
                     <img id='tableTexture' src={require("./VRassets/woodtext.jpg")} />
                     <img id='recordTexture' src={require("./VRassets/tinyrecord.png")} />
+                    <audio id="music" ></audio>
 
                 </a-assets>
                 <a-box src='#tableTexture' position="0 0 0" scale='4 1 2' repeat='1 5'>
