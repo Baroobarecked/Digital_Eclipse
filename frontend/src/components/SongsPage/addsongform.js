@@ -17,6 +17,14 @@ export default function SongForm() {
     const [displayForm, setDisplayForm] = useState(false);
 
     
+    function resetAlbumSongs() {
+        let tempSong = {};
+        Object.values(songs).forEach((song, index) => {
+            tempSong[`Side ${index + 1}`] = song
+        })
+        setSongs(tempSong)
+    }
+    
     useEffect(() => {
         if(albumSongs) {
             let url
@@ -129,9 +137,14 @@ export default function SongForm() {
         navigate(`/albums/${albumId}/songs`)
     }
     
-    function deleteSide(key) {
+    function deleteSide(e, key) {
+        e.preventDefault()
+        e.stopPropagation()
         delete songs[key]
         setSide(side - 1)
+        console.log(songs)
+        console.log(albumSongs)
+        resetAlbumSongs()
         navigate(`/albums/${albumId}/songs`)
     }
 
@@ -196,7 +209,7 @@ export default function SongForm() {
                                             <>
                                                 <div className='sideDisplay'>
                                                     <h3>{key}</h3>
-                                                    <button onClick={() => deleteSide(key)}>Remove Side</button>
+                                                    <button onClick={e => deleteSide(e, key)}>Remove Side</button>
                                                 </div>
                                                 {songs[key].map((song, index)=> {
                                                     if(song && !song.includes('-c8e3fd63-1c26-4660')) {

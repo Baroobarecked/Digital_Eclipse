@@ -12,6 +12,7 @@ import SongForm from './components/SongsPage/addsongform'
 import { authenticate } from './store/session';
 import Logout from './components/UserPages/Logout';
 import SplashPage from './components/UserPages/Splash';
+import VrMain from './components/AlbumsPage/mainvr';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -43,6 +44,9 @@ function App() {
           <Route exact path='addalbum' element={<AddAlbum />} />
           <Route exact path=':albumId' element={<AddAlbum />} />
           <Route exact path=':albumId/songs' element={<SongForm />} />
+        </Route>
+        <Route exact path='vr/albums' element={<VrMain />}>
+
         </Route>
       </Routes>
     </BrowserRouter>
