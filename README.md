@@ -21,10 +21,7 @@ with other streaming platforms. For starters, let us look at how you
 would select music:
 
 
-
-
-https://user-images.githubusercontent.com/88457702/151229023-8fed9af6-5162-40c4-a4b2-c44cac0b5cd1.mp4
-
+![](https://user-images.githubusercontent.com/88457702/151243059-5c9b413a-7449-4321-83f0-d042bf9fdbb8.gif)
 
 
 
@@ -37,15 +34,12 @@ trying to break it apart.
 Pausing and then resuming is similarly easy, just click on the spinning
 record:
 
-
-https://user-images.githubusercontent.com/88457702/151228803-e4eb1d02-f0b2-4527-a93f-c4cdc379ce10.mp4
+![playingandresuming(1)](https://user-images.githubusercontent.com/88457702/151247424-52a295cf-4767-4b20-8740-bbc283249f89.gif) 
 
 
 Stopping the music or choosing a new side to listen to is easy as well,
 drag the spinning record to remove it entirely:
 
-
-https://user-images.githubusercontent.com/88457702/151228869-1519b01d-22f2-49a7-83c5-765a253a0d1b.mp4
 
 
 To upload music, just click the Add Album button and go through the
@@ -108,3 +102,4 @@ When combined together, these technologies have allowed the development
 of Digital Eclipse to be plausible, and hopefully future updates will
 include the use of A-Frame to bring the Digital Eclipse experience to
 WebXR.
+
