@@ -1,4 +1,5 @@
-![](Pictures/10000001000003E8000000F6C90FE4F22FB9D9B1.png)
+![logo](https://user-images.githubusercontent.com/88457702/151228965-257a7283-8a20-46bd-aae2-45ac676ab009.png)
+
 
 Digital Eclipse
 ===============
@@ -19,6 +20,14 @@ Using Digital Eclipse is purposefully different from how you interact
 with other streaming platforms. For starters, let us look at how you
 would select music:
 
+
+
+
+https://user-images.githubusercontent.com/88457702/151229023-8fed9af6-5162-40c4-a4b2-c44cac0b5cd1.mp4
+
+
+
+
 You may notice that you do not select individual songs, rather you
 select a side to play. This is because that is consistent with how
 records work and makes recording easier as you just need to upload one
@@ -28,8 +37,16 @@ trying to break it apart.
 Pausing and then resuming is similarly easy, just click on the spinning
 record:
 
+
+https://user-images.githubusercontent.com/88457702/151228803-e4eb1d02-f0b2-4527-a93f-c4cdc379ce10.mp4
+
+
 Stopping the music or choosing a new side to listen to is easy as well,
 drag the spinning record to remove it entirely:
+
+
+https://user-images.githubusercontent.com/88457702/151228869-1519b01d-22f2-49a7-83c5-765a253a0d1b.mp4
+
 
 To upload music, just click the Add Album button and go through the
 forms. To ensure the best experience, it is recommended to use flac as
