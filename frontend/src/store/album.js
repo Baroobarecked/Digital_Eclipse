@@ -114,10 +114,7 @@ export default function albumsReducer(state = null, action) {
             storeState = {'albums': [...action.albums]}
             return {'albums': [...action.albums]}
         case ADD_ALBUM:
-            console.log(action)
-            console.log(state)
             newState = {...state};
-            console.log(newState['albums'])
             newState['albums'].push(action.album);
             return newState;
         case EDIT_ALBUM:
@@ -139,8 +136,6 @@ export default function albumsReducer(state = null, action) {
             newState['albums'] = albums
             return newState
         case FILTER_ALBUMS:
-            console.log(storeState)
-            console.log(action.searchVal)
             newState = {...storeState}
             newState = {'albums': newState['albums'].filter(album => {
                 console.log(album)

@@ -2,5 +2,5 @@ from flask_wtf import FlaskForm
 
 
 
-class LoginForm(FlaskForm):
+class ForumForm(FlaskForm):
     pass

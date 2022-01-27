@@ -7,7 +7,7 @@ export default function SplashPage () {
             <div id='splashTitle'></div>
             <div id='introduction'>
                 <h1>Welcome to Digital Eclipse</h1>
-                <h2>The best digital way to listen to analog audio</h2>
+                <h2>The best digital way to listen to audio</h2>
                 <div id="intro_grid">
                     <h3 id='grid_title'>Get started with a few simple steps</h3>
                     <h4 id='step_one'>1. Record your audio.</h4>

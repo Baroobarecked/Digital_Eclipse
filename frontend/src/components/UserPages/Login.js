@@ -13,11 +13,17 @@ function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const submitUser = async (e) => {
         e.preventDefault();
-        await dispatch(sessionActions.loginSessionUser({'user': [username, password]}))
-        navigate('/albums', {replace: true})
+        let res = await dispatch(sessionActions.loginSessionUser({'user': [username, password]}))
+        if(res) {
+            setErrors(res['errors'])
+        } else {
+            navigate('/albums')
+            navigate('/albums', {replace: true})
+        }
     }
     const loginDemo = async (e) => {
         e.preventDefault();
@@ -34,6 +40,11 @@ function Login() {
     return (
 
         <form id='loginform'>
+            {errors && errors.map(error => {
+                return (
+                    <pre>{error}</pre>
+                )
+            })}
             <label /> Username
             <input type={'text'} onChange={e => setUsername(e.target.value)} value={username}/>
             <label /> Password

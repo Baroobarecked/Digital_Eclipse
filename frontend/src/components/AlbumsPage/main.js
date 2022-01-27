@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import * as albumActions from '../../store/album'
-import * as songActions from '../../store/song'
-import { Outlet, useNavigate, useMatch } from 'react-router-dom'
+import * as albumActions from '../../store/album';
+import * as songActions from '../../store/song';
+import { Outlet, useNavigate, useMatch } from 'react-router-dom';
+import ForumPage from '../CommunityPages/Forum';
+import Navbar from '../Navbar';
 
 function Albums() {
     const albums = useSelector(state => state.albums)
@@ -23,6 +25,8 @@ function Albums() {
     const [Nirvana, setNirvana] = useState(false)
     const [displayButtons, setDisplayButtons] = useState(false)
     const editOpen = useMatch('/albums/:albumId/songs')
+    const communityOpen = useMatch('/community/*')
+    console.log(communityOpen)
 
     useEffect(() => {
         if(!currentUser) {
@@ -205,8 +209,10 @@ function Albums() {
     }
 
     useEffect(() => {
-        sizeAlbums()
-    }, [albums])
+        if(!communityOpen) {
+            sizeAlbums()
+        }
+    }, [albums, communityOpen])
 
     const albumClick = (album) => {
         setDisplayScroll(false)
@@ -262,7 +268,7 @@ function Albums() {
 
     return (
         <div className='album_main'>
-            {!displayScroll && 
+            {(!displayScroll || communityOpen) && 
                 <>
                     <div id='soundDisplay'>
                         {bars}   
@@ -272,7 +278,7 @@ function Albums() {
                     </div>
                 </>
             }
-            {displayScroll && 
+            {displayScroll && !communityOpen &&
                 (<div className='album_display' onWheel={scrollAlbums}>
                     <div className='scrollBuffer'></div>
                     {albums && albums.albums.map(album => {
@@ -292,7 +298,8 @@ function Albums() {
                     <div className='scrollBuffer'></div>
                 </div>)
             }
-            {!displayScroll && !Nirvana &&
+            {/* {communityOpen && <ForumPage />} */}
+            {!displayScroll && !Nirvana && !communityOpen &&
                 <div className='album_display' style={{
                     display: 'flex',
                     justifyContent: 'center'
@@ -466,7 +473,7 @@ function Albums() {
                         }
                     </div>
                 </div>
-            
+            {!Nirvana && <Navbar />}
             <Outlet />
         </div>
     )

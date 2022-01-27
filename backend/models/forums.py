@@ -9,3 +9,10 @@ class Forum(db.Model):
 
     user = db.relationship("User", back_populates="forums")
     posts = db.relationship("Post", back_populates="forum", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'forum_title': self.forum_title,
+            'admin': self.admin
+        }

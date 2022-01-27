@@ -4,6 +4,7 @@ from .api.users import user_routes
 from .api.albums import album_routes
 from .api.uploads import upload_routes
 from .api.songs import song_routes
+from .api.forums import forum_routes
 from backend.models.db import db
 from flask_migrate import Migrate
 from backend.config import Config
@@ -28,6 +29,7 @@ app.register_blueprint(user_routes)
 app.register_blueprint(album_routes)
 app.register_blueprint(upload_routes)
 app.register_blueprint(song_routes)
+app.register_blueprint(forum_routes)
 
 app.config.from_object(Config)
 db.init_app(app)

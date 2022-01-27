@@ -41,7 +41,7 @@
   overflow: hidden;
 }
 
-#signupform, #loginform, #add_album_form, #add_song_form {
+#signupform, #loginform, #add_album_form, #add_song_form, #create_forum {
   display: flex;
   flex-direction: column;
   width: 30vw;
@@ -79,6 +79,10 @@ input:focus {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
+}
+
+#community_form {
+  position: absolute;
 }
 
 .form_background {
@@ -555,4 +559,23 @@ button:hover {
 #img_four {
   grid-area: img_four;
   width: 10vw;
+}
+
+#community_display {
+  grid-area: albums;
+  display: grid;
+  grid-template-areas: 'nav nav nav'
+                      'forumnav posts posts'
+                      '. player .';
+  grid-template-columns: 15vw auto;
+  width: 100vw;
+  height: 100%;
+}
+
+#posts {
+  grid-area: posts;
+}
+
+#forum_navigation {
+  grid-area: forumnav;
 }
