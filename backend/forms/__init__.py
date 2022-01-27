@@ -2,4 +2,5 @@ from .loginform import LoginForm
 from .signupform import SignUpForm
 from .songsform import SongsForm
 from .albumsform import AlbumsForm
-from.forumforms import ForumForm
+from .forumforms import ForumForm
+from .postforms import PostForm

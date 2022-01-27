@@ -16,6 +16,7 @@ boto3 = "*"
 flask-migrate = "*"
 flask-cors = "*"
 flask-jsglue = "*"
+flask-socketio = "*"
 
 [dev-packages]
 

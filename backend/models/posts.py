@@ -10,3 +10,11 @@ class Post(db.Model):
 
     user = db.relationship("User", back_populates="posts")
     forum = db.relationship("Forum", back_populates="posts")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'forum_id': self.forum_id,
+            'user_id': self.user_id,
+            'content': self.content
+        }

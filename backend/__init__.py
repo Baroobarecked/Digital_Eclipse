@@ -4,7 +4,8 @@ from .api.users import user_routes
 from .api.albums import album_routes
 from .api.uploads import upload_routes
 from .api.songs import song_routes
-from .api.forums import forum_routes
+from .api.forums import forum_routes, socketio
+from .api.posts import post_routes
 from backend.models.db import db
 from flask_migrate import Migrate
 from backend.config import Config
@@ -30,10 +31,14 @@ app.register_blueprint(album_routes)
 app.register_blueprint(upload_routes)
 app.register_blueprint(song_routes)
 app.register_blueprint(forum_routes)
+app.register_blueprint(post_routes)
 
 app.config.from_object(Config)
 db.init_app(app)
 Migrate(app,db)
+socketio.init_app(app)
+
+
 CORS(app)
 
 
@@ -66,6 +71,6 @@ def react_root(path):
     return app.send_static_file('index.html')
 
 
-# if __name__ == '__main__':
-#   port = int(os.environ.get('PORT', 5000))
-#   app.run(host='0.0.0.0', port = port)
+if __name__ == '__main__':
+    app.run(host="0.0.0.0")
+    socketio.run(app)
