@@ -144,7 +144,7 @@ export default function AddAlbum() {
     }
 
     return (
-        <div className="form_modal"onClick={() => {
+        <div className="form_modal absolute_form"onClick={() => {
             navigate('/albums', {replace: true})
         }}>
             <form id='add_album_form' onClick={e => e.stopPropagation()}>

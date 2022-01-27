@@ -25,14 +25,14 @@ function Logout() {
                     }}>Add Album</button>
                     <button onClick={() => {
                         navigate('/community')
-                    }}>Community Pages</button>
+                    }} className='communityButton'>Community Pages</button>
                 </>
             }
             {communityOpen && 
                 <>
                     <button onClick={() => {
                         navigate('/albums')
-                    }}>Back to music</button>
+                    }} className='communityButton'>Back to music</button>
                 </>
             }
             <button  onClick={userLogout}>Log out</button>

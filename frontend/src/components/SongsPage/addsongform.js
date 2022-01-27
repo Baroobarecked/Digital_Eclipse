@@ -155,7 +155,7 @@ export default function SongForm() {
         <>
             {!minimize && (
 
-                <div className='form_modal' onClick={() => {
+                <div className='form_modal absolute_form' onClick={() => {
                     setMinimize(true)
                 }}>
                     <form id='add_song_form' onClick={e => e.stopPropagation()}>
@@ -235,6 +235,7 @@ export default function SongForm() {
                         {albumSongs && 
                             <button onClick={editSongs}>Edit Album Songs</button>
                         } 
+                        <button >Cancel</button>
                         
                     </form>
                 </div>

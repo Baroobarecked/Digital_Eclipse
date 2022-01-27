@@ -79,6 +79,9 @@ input:focus {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
+}
+
+.absolute_form {
   position: absolute;
 }
 
@@ -413,6 +416,7 @@ button:hover {
 .sideDisplay, .songComponent {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .songComponent {
@@ -444,6 +448,7 @@ button:hover {
   display: flex;
   justify-content: end;
   position: absolute;
+  z-index: 3;
 }
 
 #searchBar {
@@ -472,7 +477,7 @@ button:hover {
   width: 80vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 3;
+  z-index: 2;
 }
 
 #splashTitle {
@@ -667,4 +672,8 @@ button:hover {
 
 .forum_content button:hover {
   background-color: red;
+}
+
+.communityButton {
+  width: 10vw;
 }
