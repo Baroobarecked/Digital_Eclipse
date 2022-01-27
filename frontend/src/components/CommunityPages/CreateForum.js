@@ -28,7 +28,7 @@ function CreateForum() {
         }}>
             <form id='create_forum' onClick={e => e.stopPropagation()}>
                 <label /> Discussion Title
-                <input type={'text'} onChange={e => setForumTitle(e.target.value)} value={forumTitle}/>
+                <input type={'text'} onChange={e => setForumTitle(e.target.value)} required={true} value={forumTitle}/>
                 <button onClick={submitForum}>Submit</button>
             </form>
         </div>

@@ -13,7 +13,7 @@ export default function ForumsNavigation() {
 
     useEffect(() => {
         dispatch(discussionActions.setDiscussionState())
-        console.log(discussions)
+        
     }, [])
 
 
@@ -25,7 +25,7 @@ export default function ForumsNavigation() {
                 navigate('/community/addforumdisscussion')
             }}>Add Forum</button>
             {discussions && discussions.map(discussion => {
-                console.log(discussion)
+                
                 return (
                     <div className="forum_content">
                         <p onClick={() => {

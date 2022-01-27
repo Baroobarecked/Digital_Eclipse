@@ -48,7 +48,7 @@ export const setPostState = discussionId => async dispatch => {
 
     if(res.ok) {
         let result = await res.json()
-        console.log(result)
+        
         if(result.posts) {
             dispatch(setPosts(result.posts))
         } else {
@@ -114,13 +114,13 @@ export const editAPost = post => async dispatch => {
 
     if(res.ok) {
         let result = await res.json()
-        console.log(result)
+        
         dispatch(editPost(result.post))
     }
 }
 
 export const directEdit = post => dispatch => {
-    console.log(post)
+    
     dispatch(editPost(post))
 }
 
@@ -132,10 +132,10 @@ export default function postReducer(state = {'posts': []}, action) {
         case SET_POSTS:
             return {'posts': [...action.posts]}
         case CREATE_POSTS:
-            console.log(action)
+            
             newState = {...state}
             newState['posts'].push(action.data)
-            console.log(newState)
+            
             let postArray = newState['posts']
             return {'posts': [...postArray]}
         case DELETE_POST:

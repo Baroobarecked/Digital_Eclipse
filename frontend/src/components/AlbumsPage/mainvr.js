@@ -14,12 +14,9 @@ export default function VrMain() {
 
     
     let components = [];
-    // let songComponents = [];
     function makeAlbums () {
         if(albums) {
             albums.albums.forEach(async album => {
-                // console.log(album)
-                // console.log(songComponents)
                 components.push(
                     <a-entity class="albums"
                     geometry="primitive: plane; height: 1; width: 1"
@@ -28,12 +25,9 @@ export default function VrMain() {
                     event-set__mouseleave="scale: 1 1 1"
                     id={`${album.id}`}
                     >
-                        {/* {songComponents} */}
                     </a-entity>
                 )
-                // attachMusic(album.id)
             })
-            console.log(components)
             return components
         }
     }
@@ -52,20 +46,18 @@ export default function VrMain() {
 
     useEffect(() => {
         document.querySelectorAll('.audiofiles').forEach(component => {
-            // console.log(component)
             component.addEventListener('click', (e) => {
                 e.stopPropagation()
                 let player = document.getElementById('audio_player')
-                // console.log(player.src, e.target.id)
                 if(player.src == e.target.id) {
-                    console.log(pause)
+                    
                     if(pause) {
-                        // console.log(pause)
+                        // 
                         player.play();
                         // setPause(!pause)
                     } else {
                         player.pause();
-                        // console.log(pause)
+                        // 
                     }
                     setPause(!pause)
                 } else {

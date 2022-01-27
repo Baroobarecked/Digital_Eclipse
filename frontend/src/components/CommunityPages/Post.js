@@ -45,7 +45,7 @@ export default function Posts() {
         })
 
         socket.on('post_delete', async (postId) => {
-            console.log(postId)
+            
             await dispatch(postActions.directDelete(postId));
         })
 

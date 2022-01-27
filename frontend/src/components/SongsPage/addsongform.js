@@ -55,7 +55,7 @@ export default function SongForm() {
         if(res.ok) {
             const data = await res.json()
             uploadFile(file, data.data, data.url)
-            console.log(data)
+            
         }
         else alert('Could not get signed URL')
     }
@@ -68,7 +68,7 @@ export default function SongForm() {
         }
         postData.append('file', file);
 
-        console.log(file.type)
+        
 
         const res = await fetch(s3Data.url, {
             method: 'post',
@@ -76,13 +76,13 @@ export default function SongForm() {
         })
         if(res.ok) {
             if(file.type.includes('audio/')) {
-                console.log('audio')
+                
                 songs[`Side ${side + 1}`] = [url]
                 setSongs(songs)
                 setSide(side + 1)
                 setAudioUrl(url)
             }
-            console.log('ok')
+            
             setImageLoading(false)
         }
         else alert('Could not upload file.')
@@ -116,7 +116,7 @@ export default function SongForm() {
     function submitSongs(e) {
         e.preventDefault();
         let data = [songs, albumId];
-        console.log(data);
+        
         dispatch(songsActions.addNewSongs(data));
         navigate('/albums')
     }
@@ -124,7 +124,7 @@ export default function SongForm() {
     function editSongs(e) {
         e.preventDefault();
         let data = [songs, albumId];
-        console.log(data);
+        
         dispatch(songsActions.editAlbumSongs(data));
         navigate('/albums')
     }
@@ -142,8 +142,8 @@ export default function SongForm() {
         e.stopPropagation()
         delete songs[key]
         setSide(side - 1)
-        console.log(songs)
-        console.log(albumSongs)
+        
+        
         resetAlbumSongs()
         navigate(`/albums/${albumId}/songs`)
     }
@@ -190,7 +190,7 @@ export default function SongForm() {
                                     let key = `Side ${i}`;
 
                                     if(songs[key]){
-                                        console.log(songs[key])
+                                        
                                         songs[key] = [...songs[key], songToAdd]
                                         setSongs(songs)
                                     } else {
@@ -235,8 +235,6 @@ export default function SongForm() {
                         {albumSongs && 
                             <button onClick={editSongs}>Edit Album Songs</button>
                         } 
-                        <button >Cancel</button>
-                        
                     </form>
                 </div>
                 )

@@ -50,7 +50,7 @@ function SignUp() {
         if(res.ok) {
             const data = await res.json()
             uploadFile(file, data.data, data.url)
-            console.log(data)
+            
         }
         else alert('Could not get signed URL')
     }
@@ -63,7 +63,7 @@ function SignUp() {
         }
         postData.append('file', file);
 
-        console.log(file.type)
+        
 
         const res = await fetch(s3Data.url, {
             method: 'post',
@@ -71,7 +71,7 @@ function SignUp() {
         })
         if(res.ok) {
             setImageUrl(url)
-            console.log('ok')
+            
             setImageLoading(false)
         }
         else alert('Could not upload file.')

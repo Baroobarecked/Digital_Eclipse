@@ -60,7 +60,7 @@ export const addNewAlbum = album => async dispatch => {
 
     if(res.ok) {
         let album = await res.json()
-        // console.log(album)
+        // 
         dispatch(addAlbum(album.album))
         return album;
     }
@@ -78,7 +78,7 @@ export const editOldAlbum = album => async dispatch => {
 
     if(res.ok) {
         let album = await res.json()
-        // console.log(album)
+        // 
         dispatch(editAlbum(album.album))
         return album;
     }
@@ -138,7 +138,7 @@ export default function albumsReducer(state = null, action) {
         case FILTER_ALBUMS:
             newState = {...storeState}
             newState = {'albums': newState['albums'].filter(album => {
-                console.log(album)
+                
                 if( album.album_title.toLowerCase().includes(action.searchVal.toLowerCase())) {
                     return album
                 }

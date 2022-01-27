@@ -73,7 +73,7 @@ export const addNewSongs = songs => async dispatch => {
 
     if(res.ok) {
         let songs = await res.json()
-        // console.log(album)
+        // 
         dispatch(setSongs(songs))
         // return album;
     }
@@ -92,7 +92,7 @@ export const editAlbumSongs = songs => async dispatch => {
 
     if(res.ok) {
         let songs = await res.json()
-        // console.log(album)
+        // 
         dispatch(setSongs(songs))
         // return album;
     }

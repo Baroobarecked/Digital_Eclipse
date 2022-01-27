@@ -10,30 +10,24 @@ import * as albumActions from '../../store/album';
 
 export default function AddAlbum() {
     const dispatch = useDispatch();
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [imageLoading, setImageLoading] = useState(false)
-    const [albumTitle, setAlbumTitle] = useState(null)
+    const [albumTitle, setAlbumTitle] = useState('')
     const currentUser = useSelector(state => state.session.User)
     const albums = useSelector(state => state.albums.albums)
     const { albumId } = useParams();
     const navigate = useNavigate();
-    const [currentAlbum, setCurrentAlbum] = useState(null);
+    const [currentAlbum, setCurrentAlbum] = useState('');
+    const [errors, setErrors] = useState([]);
     
 
-    // const updateImage = (e) => {
-    //     const file = e.target.files[0];
-    //     setImage(file);
-    // }
     useEffect(() => {
-        console.log(albums)
         albums.forEach(album => {
-            console.log(album)
             if(album.id == albumId){
                 setCurrentAlbum(album);
             }
         })
-        console.log(currentAlbum)
         if(currentAlbum) {
             setImageUrl(currentAlbum.album_cover)
             setAlbumTitle(currentAlbum.album_title)
@@ -54,7 +48,6 @@ export default function AddAlbum() {
         if(res.ok) {
             const data = await res.json()
             uploadFile(file, data.data, data.url)
-            console.log(data)
         }
         else alert('Could not get signed URL')
     }
@@ -67,15 +60,12 @@ export default function AddAlbum() {
         }
         postData.append('file', file);
 
-        console.log(file.type)
-
         const res = await fetch(s3Data.url, {
             method: 'post',
             body: postData
         })
         if(res.ok) {
             setImageUrl(url)
-            console.log('ok')
             setImageLoading(false)
         }
         else alert('Could not upload file.')
@@ -108,25 +98,26 @@ export default function AddAlbum() {
 
     async function submitAlbum (e) {
         e.preventDefault()
-        console.log(currentUser)
-        let album = {
-            'album_title': albumTitle,
-            'user_id': currentUser.id,
-            'album_cover': imageUrl
+        if(albumTitle && imageUrl) {
+            let album = {
+                'album_title': albumTitle,
+                'user_id': currentUser.id,
+                'album_cover': imageUrl
+            }
+            let res = await dispatch(albumActions.addNewAlbum(album));
+            if(res) {
+                navigate(`/albums/${res.album.id}/songs`, {replace: true})
+            }
+        } else {
+            let error = 'Album needs a title and url';
+            setErrors([...errors, error])
         }
 
-        let res = await dispatch(albumActions.addNewAlbum(album));
-        console.log(res)
-        if(res) {
-            console.log('time to return')
-            navigate(`/albums/${res.album.id}/songs`, {replace: true})
-        }
 
     }
 
     async function editAlbum (e) {
         e.preventDefault()
-        console.log(currentUser)
         let album = {
             'album_title': albumTitle,
             'user_id': currentUser.id,
@@ -135,9 +126,7 @@ export default function AddAlbum() {
         }
 
         let res = await dispatch(albumActions.editOldAlbum(album));
-        console.log(res)
         if(res) {
-            console.log('time to return')
             navigate(`/albums`, {replace: true})
         }
 
@@ -148,6 +137,12 @@ export default function AddAlbum() {
             navigate('/albums', {replace: true})
         }}>
             <form id='add_album_form' onClick={e => e.stopPropagation()}>
+                {errors && errors.map(error => {
+                    return (
+                        <pre>{error}</pre>
+
+                    )
+                })}
                 <label /> Album Title
                 <input type={'text'} onChange={e => setAlbumTitle(e.target.value)} value={albumTitle}/>
                 <label /> Album Cover

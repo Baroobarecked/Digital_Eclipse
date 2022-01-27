@@ -16,7 +16,6 @@ export default function Search() {
             dispatch(albumActions.filterTheAlbums(searchValue))
         } else {
             if(currentUser){
-                console.log(currentUser)
                 dispatch(albumActions.getUserAlbums(currentUser.id))
             }
         }

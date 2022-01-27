@@ -24,6 +24,7 @@ function Albums() {
     const [analyserNode, setAnalyserNode] = useState()
     const [Nirvana, setNirvana] = useState(false)
     const [displayButtons, setDisplayButtons] = useState(false)
+    const [audioCtx, setAudioCtx] = useState(null)
     const editOpen = useMatch('/albums/:albumId/songs')
     const communityOpen = useMatch('/community/*')
 
@@ -65,20 +66,22 @@ function Albums() {
 
     const connectAudio = () => {
         
-        let dataArray;
+        // let dataArray;
         
-        let analyser;
-
-        let audioCtx;
         
         if(!audioCtx) {
             let AudioContext = window.AudioContext || window.webkitAudioContext;
-
-            audioCtx = new AudioContext({
+            let context = new AudioContext({
                 latencyHint: 'playback',
                 sampleRate: 96000,
             })
+            setAudioCtx(context)
+        }
+    }
     
+    useEffect(() => {
+        let analyser;
+        if(audioCtx) {
             let aud = document.getElementById('audio_player')
     
             let audSource = audioCtx.createMediaElementSource(aud)
@@ -87,26 +90,18 @@ function Albums() {
                 fftSize: 1024,
             })
 
-            setAnalyserNode(analyser)
-    
+            
             audSource.connect(analyser).connect(audioCtx.destination);
-    
-            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            setAnalyserNode(analyser)
+            resumeMonitoring()
         }
-    
+    }, [audioCtx])
 
-        setBufferInterval(setInterval(() => {
-            void analyser.getByteFrequencyData(dataArray);
-
-            setBarHeights([...dataArray])
-            setBars([])
-
-        }, 100))
-
-    }
+    useEffect(() => {
+        resumeMonitoring()
+    }, [analyserNode]) 
 
     function resumeMonitoring() {
-
         if(analyserNode) {
             let dataArray = new Uint8Array(analyserNode.frequencyBinCount);
             
@@ -114,7 +109,6 @@ function Albums() {
     
             setBufferInterval(setInterval(() => {
                 void analyserNode.getByteFrequencyData(dataArray);
-    
                 setBarHeights([...dataArray])
                 setBars([])
     
@@ -216,6 +210,7 @@ function Albums() {
     const albumClick = (album) => {
         setDisplayScroll(false)
         dispatch(songActions.getAlbumsSongs(album.id))
+        connectAudio()
     }
 
     const dropHandler = (e) => {
@@ -227,13 +222,16 @@ function Albums() {
         setPause(false)
         resumeMonitoring()
         setRecordPlaying(true);
-        document.getElementById('record_image').style.animationPlayState = 'running';
+        let record = document.getElementById('record_image')
+        if(record) {
+            record.style.animationPlayState = 'running';
+        }
     }
 
     function allowDrop(e) {
         e.stopPropagation();
         e.preventDefault();
-        connectAudio()
+        // connectAudio()
     }
 
     function revertDrop(e) {
@@ -246,22 +244,24 @@ function Albums() {
     }
 
     function playAudio(e) {
+        resumeMonitoring();
         document.getElementById('audio_player').play();
         document.getElementById('record_image').style.animationPlayState = 'running';
-        resumeMonitoring();
     }
 
     function pauseAudio(e) {
+        clearInterval(bufferInterval);
         document.getElementById('audio_player').pause();
         document.getElementById('record_image').style.animationPlayState = 'paused';
-        clearInterval(bufferInterval);
     }
 
     function stopAudio(e) {
         e.preventDefault()
         e.stopPropagation()
-        document.getElementById('audio_player').pause()
+        let player = document.getElementById('audio_player')
+        player.src = '';
         clearInterval(bufferInterval)
+        document.getElementById('audio_player').pause()
         setRecordPlaying(false)
     }
 
@@ -324,7 +324,7 @@ function Albums() {
                     </div>
                     <div className='album_single'>
                         <div className='album_wrapper_single' value={albumData} style={{backgroundImage:`url(${albumData.album_cover})`}}
-                        onMouseEnter={() => 
+                        onMouseOver={() => 
                             setDisplayButtons(true)
                         }
                         onMouseLeave={() => 
@@ -340,6 +340,7 @@ function Albums() {
                                                     e.stopPropagation();
                                                     setDisplayScroll(true)
                                                     navigator(`/albums/${albumData.id}`)
+                                                    setDisplayScroll(false)
                                                 }}>Edit Album</button>
                                                 <button onClick={e => {
                                                     e.stopPropagation()
@@ -438,6 +439,7 @@ function Albums() {
 
                     onDragOver={allowDrop}
                     onDragLeave={revertDrop}
+                    onDragEnter={resumeMonitoring}
                     >
                     <audio id='audio_player' crossOrigin='anonymous' onEnded={e => stopAudio(e)}></audio>
                     <div

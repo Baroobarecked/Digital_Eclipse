@@ -33,7 +33,7 @@ export const setDiscussionState = () => async dispatch => {
 
     if(res.ok) {
         let result = await res.json()
-        console.log(result)
+        
 
         dispatch(setDiscussions(result.discussions))
     }
