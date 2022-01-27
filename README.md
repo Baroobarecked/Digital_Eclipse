@@ -40,6 +40,7 @@ record:
 Stopping the music or choosing a new side to listen to is easy as well,
 drag the spinning record to remove it entirely:
 
+![stopandreselect(1)](https://user-images.githubusercontent.com/88457702/151395759-b9a4e376-675b-4349-92ce-18d2c95560be.gif)
 
 
 To upload music, just click the Add Album button and go through the
