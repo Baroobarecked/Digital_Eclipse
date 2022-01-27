@@ -48,7 +48,7 @@ function App() {
         </Route>
         <Route exact path='community' element={<Albums />}>
             <Route path='' element={<ForumPage />}>
-              <Route path=':forumid' element={<Posts />} >
+              <Route path=':forumid/:forumtitle' element={<Posts />} >
               </Route>
             </Route>
           <Route exact path='addforumdisscussion' element={<CreateForum />} />

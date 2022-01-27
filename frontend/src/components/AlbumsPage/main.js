@@ -225,10 +225,10 @@ function Albums() {
         player.src = '';
         player.src = playUrl;
         player.play();
-        setRecordPlaying(true);
-        document.getElementById('record_image').style.animationPlayState = 'running';
         setPause(false)
         resumeMonitoring()
+        setRecordPlaying(true);
+        document.getElementById('record_image').style.animationPlayState = 'running';
     }
 
     function allowDrop(e) {
@@ -262,7 +262,7 @@ function Albums() {
         e.preventDefault()
         e.stopPropagation()
         document.getElementById('audio_player').pause()
-        // clearInterval(bufferInterval)
+        clearInterval(bufferInterval)
         setRecordPlaying(false)
     }
 

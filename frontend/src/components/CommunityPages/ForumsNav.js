@@ -29,7 +29,7 @@ export default function ForumsNavigation() {
                 return (
                     <div>
                         <p onClick={() => {
-                            navigate(`/community/${discussion.id}`)
+                            navigate(`/community/${discussion.id}/${discussion.forum_title}`)
                         }}>{discussion.forum_title}</p>
                         <button onClick={() => {
                             dispatch(discussionActions.deleteADiscussion(discussion.id))
