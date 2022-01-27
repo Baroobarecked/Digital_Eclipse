@@ -158,7 +158,8 @@ input:focus {
   z-index: 1;
 }
 
-.album_display::-webkit-scrollbar, .shadow::-webkit-scrollbar, .record_list::-webkit-scrollbar, .song_list::-webkit-scrollbar, form::-webkit-scrollbar, #intro_grid::-webkit-scrollbar {
+.album_display::-webkit-scrollbar, .shadow::-webkit-scrollbar, .record_list::-webkit-scrollbar, 
+.song_list::-webkit-scrollbar, form::-webkit-scrollbar, #intro_grid::-webkit-scrollbar, #post_container::-webkit-scrollbar, #forum_navigation::-webkit-scrollbar {
   display: none;
 }
 
@@ -564,18 +565,105 @@ button:hover {
 #community_display {
   grid-area: albums;
   display: grid;
-  grid-template-areas: 'nav nav nav'
-                      'forumnav posts posts'
-                      '. player .';
+  grid-template-areas:
+                      'forumnav posts posts';
   grid-template-columns: 15vw auto;
   width: 100vw;
-  height: 100%;
+  height: calc(100vh - 10vh - 20%)
 }
 
 #posts {
   grid-area: posts;
+  color: white;
+  padding: 10px;
+  height: calc(100vh - 10vh - 20%);
+}
+
+#post_container {
+  height: 70%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
 }
 
 #forum_navigation {
   grid-area: forumnav;
+  color: white;
+  padding: 10px;
+  height: calc(100vh - 10vh - 15%);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.post_content{
+  display: grid;
+  grid-template-areas: 'profile_image username edit_buttons'
+                        'content content content';
+  grid-template-columns: 7% auto 30%;
+  /* grid-template-rows: 1fr 2fr; */
+  width: 80%;
+  color: white;
+  min-height: 10vh;
+  max-height: fit-content;
+  border-radius: 2vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.profile_image {
+  grid-area: profile_image;
+  width: 4vw;
+  height: 4vw;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.username {
+  grid-area: username;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.edit_buttons {
+  grid-area: edit_buttons;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.content {
+  grid-area: content;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.forum_content {
+  display: flex;
+}
+
+.forum_content p {
+  max-width: 50%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.forum_content button {
+  font-size: 0.7vw;
+  width: 4vw;
+}
+
+.forum_content button:hover {
+  background-color: red;
 }

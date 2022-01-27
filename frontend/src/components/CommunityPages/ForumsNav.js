@@ -27,13 +27,13 @@ export default function ForumsNavigation() {
             {discussions && discussions.map(discussion => {
                 console.log(discussion)
                 return (
-                    <div>
+                    <div className="forum_content">
                         <p onClick={() => {
                             navigate(`/community/${discussion.id}/${discussion.forum_title}`)
                         }}>{discussion.forum_title}</p>
-                        <button onClick={() => {
+                        {currentUser.id === discussion.admin && <button onClick={() => {
                             dispatch(discussionActions.deleteADiscussion(discussion.id))
-                        }}>Remove</button>
+                        }}>Remove</button>}
                     </div>
                 )
             })}

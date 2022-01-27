@@ -26,7 +26,6 @@ function Albums() {
     const [displayButtons, setDisplayButtons] = useState(false)
     const editOpen = useMatch('/albums/:albumId/songs')
     const communityOpen = useMatch('/community/*')
-    console.log(communityOpen)
 
     useEffect(() => {
         if(!currentUser) {

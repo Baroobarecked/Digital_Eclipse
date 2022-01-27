@@ -86,10 +86,10 @@ def post(data):
 
 @socketio.event
 def post_edit(data):
-    updated_Info = updated_Info = [data['0'], data['1'], data['2']]
-    post = data['0']
+    print(data)
+    post = data['post']
     forum_id = post['forum_id']
-    emit("post_edit", updated_Info, to=f'discussion {forum_id}')
+    emit("post_edit", post, to=f'discussion {forum_id}')
 
 @socketio.event
 def post_delete(data):

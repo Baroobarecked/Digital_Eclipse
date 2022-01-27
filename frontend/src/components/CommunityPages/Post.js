@@ -15,7 +15,8 @@ export default function Posts() {
     const currentUser = useSelector(state => state.session.User)
     const posts = useSelector(state => state.posts.posts)
     const [content, setContent] = useState('');
-    console.log(posts)
+    const [editContent, setEditContent] = useState('')
+    const [editId, setEditId] = useState(null)
 
     useEffect(() => {
         dispatch(postActions.setPostState(discussionId))
@@ -35,7 +36,6 @@ export default function Posts() {
             socket.emit('join_discussion', {
                 'discussion': discussionId
             })
-            console.log(socket)
         })
         
         socket.on('post', async (post) => {
@@ -50,18 +50,22 @@ export default function Posts() {
         })
 
         socket.on('post_edit', async (post) => {
-            if(post['0'].user_id !== currentUser.id) {
-                await dispatch(postActions.updatePosts(post));
+            if(post.user_id !== currentUser.id) {
+                await dispatch(postActions.directEdit(post));
             }
         })
 
         return (() => {
-            console.log('in disconnect')
             socket.disconnect()
-            console.log(socket)
         })
 
     }, [discussionId])
+
+    const submitEdit = () => {
+        let post = {'post': {'id': editId, 'content': editContent, 'forum_id': discussionId, 'user_id': currentUser.id}}
+        dispatch(postActions.editAPost(post))
+        socket.emit('post_edit', { ...post  })
+    }
 
 
     return (
@@ -71,15 +75,28 @@ export default function Posts() {
                 <h1>{discussionTitle}</h1>
                 <div id='post_container'>
                     {posts && posts.map(post => {
-
                         return(
                             <div className="post_content">
-                                <p>{post[1]}</p>
-                                <p>{post[0].content}</p>
-                                <button onClick={() => {
-                                    dispatch(postActions.deleteAPost(post[0].id))
-                                    socket.emit('post_delete', {'postId': post[0].id, discussionId})
-                                }}>Delete</button>
+                                <img className="profile_image" src={`${post[2]}`}></img>
+                                <p className="username">{post[1]}</p>
+                                {!(post[0].id === editId) && <p className="content">{post[0].content}</p>}
+                                {post[0].id === editId && <textarea className='content' type='text' value={editContent} onChange={e => setEditContent(e.target.value)}></textarea>}
+                                {post[0].user_id === currentUser.id && 
+                                    <div className="edit_buttons">
+                                        {post[0].id !== editId && <button onClick={() => {
+                                            setEditContent(post[0].content)
+                                            setEditId(post[0].id)
+                                        }}>Edit</button>}
+                                        {(post[0].id === editId) && <button onClick={() => {
+                                            submitEdit()
+                                            setEditId(null)
+                                        }}>Close Edit</button>}
+                                        <button onClick={() => {
+                                            dispatch(postActions.deleteAPost(post[0].id))
+                                            socket.emit('post_delete', {'postId': post[0].id, discussionId})
+                                        }}>Delete</button>
+                                    </div>
+                                }
                             </div>
                         )
                     })}
@@ -90,6 +107,7 @@ export default function Posts() {
                         let user = currentUser;
                         let res = await dispatch(postActions.createNewPost({user, content, discussionId}))
                         socket.emit('post', { ...res,  })
+                        setContent('')
                     }}>Submit</button>
                 </div>
             </div>
