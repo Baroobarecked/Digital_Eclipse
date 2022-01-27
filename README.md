@@ -16,7 +16,7 @@ to mimic the behaviors you have to go through to play vinyl records.
 How to use Digital Eclipse
 --------------------------
 
-Using Digital Eclipse is purposefully different from how you interact
+Using [Digital Eclipse](https://digital-eclipse.herokuapp.com) is purposefully different from how you interact
 with other streaming platforms. For starters, let us look at how you
 would select music:
 
