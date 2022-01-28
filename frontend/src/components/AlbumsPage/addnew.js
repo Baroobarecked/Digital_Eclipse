@@ -98,6 +98,7 @@ export default function AddAlbum() {
 
     async function submitAlbum (e) {
         e.preventDefault()
+        setErrors([])
         if(albumTitle && imageUrl) {
             let album = {
                 'album_title': albumTitle,
@@ -109,8 +110,8 @@ export default function AddAlbum() {
                 navigate(`/albums/${res.album.id}/songs`, {replace: true})
             }
         } else {
-            let error = 'Album needs a title and url';
-            setErrors([...errors, error])
+            let error = 'Album needs a title and image';
+            setErrors([error])
         }
 
 
@@ -118,16 +119,21 @@ export default function AddAlbum() {
 
     async function editAlbum (e) {
         e.preventDefault()
-        let album = {
-            'album_title': albumTitle,
-            'user_id': currentUser.id,
-            'album_cover': imageUrl,
-            'id': parseInt(albumId)
-        }
-
-        let res = await dispatch(albumActions.editOldAlbum(album));
-        if(res) {
-            navigate(`/albums`)
+        if(albumTitle && imageUrl) {
+            let album = {
+                'album_title': albumTitle,
+                'user_id': currentUser.id,
+                'album_cover': imageUrl,
+                'id': parseInt(albumId)
+            }
+    
+            let res = await dispatch(albumActions.editOldAlbum(album));
+            if(res) {
+                navigate(`/albums`)
+            }
+        } else {
+            let error = 'Album needs a title and image';
+            setErrors([error])
         }
 
     }
@@ -147,7 +153,6 @@ export default function AddAlbum() {
                 <input type={'text'} onChange={e => setAlbumTitle(e.target.value)} value={albumTitle}/>
                 <label /> Album Cover
                 <div className='drop_zone'
-                    className='drop_zone' 
                     accept="image/*" 
                     onDrop={dropHandler} 
                     onDragOver={allowDrop}

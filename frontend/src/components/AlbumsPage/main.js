@@ -43,7 +43,9 @@ function Albums() {
     
 
     useEffect(() => {
-        setAlbumData(albums.albums[albumIndex])
+        if(albumIndex) {
+            setAlbumData(albums.albums[albumIndex])
+        }
     }, [albums])
 
     useEffect(() => {
