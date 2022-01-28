@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import './App.css';
-import { BrowserRouter, Route, Routes, Navigate, useParams, useMatch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate, useParams, useMatch, useLocation } from 'react-router-dom';
 import SignUp from './components/UserPages/Signup';
 import Login from './components/UserPages/Login';
 import AddAlbum from './components/AlbumsPage/addnew';
@@ -10,7 +10,6 @@ import UserModal from './components/UserPages/usermodal';
 import Albums from './components/AlbumsPage/main';
 import SongForm from './components/SongsPage/addsongform'
 import { authenticate } from './store/session';
-import Logout from './components/UserPages/Logout';
 import SplashPage from './components/UserPages/Splash';
 import VrMain from './components/AlbumsPage/mainvr';
 import CreateForum from './components/CommunityPages/CreateForum';
@@ -35,9 +34,11 @@ function App() {
 
   function ValidateRoute() {
     let params = useParams()
-    let songRoute = useMatch('/albums/*/songs')
+    let location = useLocation();
+    let songRoute = location.pathname.match(/^\/albums\/.*\/songs$/)
     let albumRoute = useMatch('/albums/*')
     let forumRoute = useMatch('/community/*')
+    console.log(songRoute, location)
     if(songRoute) {
       let valid = params.albumId.match(/\d+/)
       if(valid) {

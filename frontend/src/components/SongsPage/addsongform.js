@@ -15,6 +15,7 @@ export default function SongForm() {
     const [side, setSide] = useState(0);
     const [minimize, setMinimize] = useState(false)
     const [displayForm, setDisplayForm] = useState(false);
+    const [errors, setErrors] = useState([])
 
     
     function resetAlbumSongs() {
@@ -159,6 +160,11 @@ export default function SongForm() {
                     setMinimize(true)
                 }}>
                     <form id='add_song_form' onClick={e => e.stopPropagation()}>
+                        {errors && errors.map(error => {
+                            return (
+                                <pre>{error}</pre>
+                            )
+                        })}
                         <h1>Add Side</h1>
                         {!imageLoading && 
                             <div className='drop_zone'
@@ -183,7 +189,11 @@ export default function SongForm() {
                                 <input type={'number'} onChange={e => setSide(e.target.value)} value={side} max={Object.keys(songs).length} min='1' />
                                 <label /> Song Title
                                 <input type={'text'} onChange={e => {
-                                    setSongToAdd(e.target.value)
+                                    if(e.target.value) {
+                                        setSongToAdd(e.target.value)
+                                    } else {
+                                        setErrors(['Song title cannot be empty'])
+                                    }
                                 }} value={songToAdd}/>
                                 <button onClick={e => {
                                     e.preventDefault()
