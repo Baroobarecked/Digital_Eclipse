@@ -474,7 +474,7 @@ button:hover {
 }
 
 #splashContent {
-  width: 80vw;
+  width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
@@ -485,7 +485,7 @@ button:hover {
   background-image: url('../public/logo.png');
   height: 20vh;
   /* background-position: fixed; */
-  background-size: 80vw 20vh;
+  background-size: 100vw 30vh;
   position: static;
 }
 
@@ -676,4 +676,17 @@ button:hover {
 
 .communityButton {
   width: 10vw;
+}
+
+#about_links {
+  position: fixed;
+  z-index: 5;
+  bottom: 15px;
+  right: 15px;
+}
+
+#about_links img {
+  width: 3vw;
+  height: 3vw;
+  padding: 20px;
 }
