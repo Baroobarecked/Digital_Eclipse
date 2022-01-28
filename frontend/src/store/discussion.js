@@ -83,8 +83,9 @@ export default function forumReducer(state = {'discussions': []}, action) {
             return {'discussions': [...action.discussions]}
         case CREATE_DISCUSSIONS:
             newState = {...state}
-            newState['discussions'].push(action.data)
-            return newState
+            let discussions = newState['discussions']
+            discussions.push(action.data)
+            return {'discussions': [...discussions]}
         default:
             return state
     }

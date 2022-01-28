@@ -149,8 +149,12 @@ export default function AddAlbum() {
 
                     )
                 })}
-                <label /> Album Title
-                <input type={'text'} onChange={e => setAlbumTitle(e.target.value)} value={albumTitle}/>
+                <label /> Album Title {albumTitle.length}/100
+                <input type={'text'} onChange={e => {
+                    if(albumTitle.length < 100) {
+                        setAlbumTitle(e.target.value)
+                    }
+                }} value={albumTitle}/>
                 <label /> Album Cover
                 <div className='drop_zone'
                     accept="image/*" 

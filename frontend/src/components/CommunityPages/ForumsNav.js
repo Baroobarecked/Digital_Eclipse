@@ -30,9 +30,9 @@ export default function ForumsNavigation() {
                     <div className="forum_content">
                         {currentUser &&
                             <>
-                                <p onClick={() => {
+                                <h3 onClick={() => {
                                     navigate(`/community/${discussion.id}/${discussion.forum_title}`)
-                                }}>{discussion.forum_title}</p>
+                                }}>{discussion.forum_title}</h3>
                                 {currentUser.id === discussion.admin && <button onClick={() => {
                                     dispatch(discussionActions.deleteADiscussion(discussion.id))
                                 }}>Remove</button>}

@@ -160,22 +160,17 @@ export default function SongForm() {
                     setMinimize(true)
                 }}>
                     <form id='add_song_form' onClick={e => e.stopPropagation()}>
-                        {errors && errors.map(error => {
-                            return (
-                                <pre>{error}</pre>
-                            )
-                        })}
                         <h1>Add Side</h1>
                         {!imageLoading && 
                             <div className='drop_zone'
-                                className='drop_zone' 
-                                accept="audio/*" 
-                                onDrop={e => {
-                                    dropHandler(e)
-                                }} 
-                                onDragOver={allowDrop}
-                                onDragLeave={revertDrop}
-                                >
+                            className='drop_zone' 
+                            accept="audio/*" 
+                            onDrop={e => {
+                                dropHandler(e)
+                            }} 
+                            onDragOver={allowDrop}
+                            onDragLeave={revertDrop}
+                            >
                                 Drag and Drop Audio Here
                             </div>
                         }
@@ -187,28 +182,46 @@ export default function SongForm() {
                                 
                                 <label /> Change Record Side
                                 <input type={'number'} onChange={e => setSide(e.target.value)} value={side} max={Object.keys(songs).length} min='1' />
-                                <label /> Song Title
+                                {errors && errors.map(error => {
+                                    return (
+                                        <pre>{error}</pre>
+                                    )
+                                })}
+                                <label /> Song Title {songToAdd.length}/100
                                 <input type={'text'} onChange={e => {
-                                    if(e.target.value) {
+                                    if(e.target.value && e.target.value.length <= 100) {
                                         setSongToAdd(e.target.value)
+                                        setErrors([])
+                                    } else if(e.target.value.length > 100) {
+                                        setErrors(['Song title cannot be more than 200'])
                                     } else {
+                                        setSongToAdd('')
                                         setErrors(['Song title cannot be empty'])
                                     }
-                                }} value={songToAdd}/>
+                                }}
+                                onBlur={() => setErrors([])}
+                                value={songToAdd}/>
                                 <button onClick={e => {
                                     e.preventDefault()
-                                    let key = `Side ${i}`;
-
-                                    if(songs[key]){
-                                        
-                                        songs[key] = [...songs[key], songToAdd]
-                                        setSongs(songs)
+                                    if(songToAdd) {
+                                        let key = `Side ${i}`;
+    
+                                        if(songs[key]){
+                                            
+                                            songs[key] = [...songs[key], songToAdd]
+                                            setSongs(songs)
+                                        } else {
+                                            songs[key] = [audioUrl, songToAdd]
+                                            setSongs(songs)
+                                        }
+                                        setSongToAdd('')
+                                        navigate(`/albums/${albumId}/songs`, {replace: false})
                                     } else {
-                                        songs[key] = [audioUrl, songToAdd]
-                                        setSongs(songs)
+                                        setErrors(['Song title cannot be empty'])
+                                        setTimeout(() => {
+                                            setErrors([])
+                                        }, 5000)
                                     }
-                                    setSongToAdd('')
-                                    navigate(`/albums/${albumId}/songs`, {replace: false})
                                     
                                 }}>Add Song</button>
                                 
@@ -225,7 +238,7 @@ export default function SongForm() {
                                                     if(song && !song.includes('-c8e3fd63-1c26-4660')) {
                                                         return (
                                                             <li className='songComponent'>
-                                                                {song}
+                                                                <p>{song}</p>
                                                                 <button onClick={e => {
                                                                     deleteSong(e, key, index)
                                                                 }}>Remove Song</button>

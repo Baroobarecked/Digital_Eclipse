@@ -78,7 +78,7 @@ export default function Posts() {
                         return(
                             <div className="post_content">
                                 <img className="profile_image" src={`${post[2]}`}></img>
-                                <p className="username">{post[1]}</p>
+                                <h4 className="username">{post[1]}</h4>
                                 {!(post[0].id === editId) && <p className="content">{post[0].content}</p>}
                                 {post[0].id === editId && <textarea className='content' type='text' value={editContent} onChange={e => setEditContent(e.target.value)}></textarea>}
                                 {post[0].user_id === currentUser.id && 
