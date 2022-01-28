@@ -81,8 +81,8 @@ export default function SongForm() {
                 setSongs(songs)
                 setSide(side + 1)
                 setAudioUrl(url)
+                setDisplayForm(true)
             }
-            
             setImageLoading(false)
         }
         else alert('Could not upload file.')
@@ -175,7 +175,7 @@ export default function SongForm() {
                         }
                         {imageLoading && <p>Uploading...</p>}
                         
-                        {displayForm && side > 0 && 
+                        {displayForm && (side > 0) && 
                             <>
                                 <h3>Editing Side {i}</h3>
                                 

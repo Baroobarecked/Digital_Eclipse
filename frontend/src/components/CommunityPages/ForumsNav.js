@@ -28,12 +28,16 @@ export default function ForumsNavigation() {
                 
                 return (
                     <div className="forum_content">
-                        <p onClick={() => {
-                            navigate(`/community/${discussion.id}/${discussion.forum_title}`)
-                        }}>{discussion.forum_title}</p>
-                        {currentUser.id === discussion.admin && <button onClick={() => {
-                            dispatch(discussionActions.deleteADiscussion(discussion.id))
-                        }}>Remove</button>}
+                        {currentUser &&
+                            <>
+                                <p onClick={() => {
+                                    navigate(`/community/${discussion.id}/${discussion.forum_title}`)
+                                }}>{discussion.forum_title}</p>
+                                {currentUser.id === discussion.admin && <button onClick={() => {
+                                    dispatch(discussionActions.deleteADiscussion(discussion.id))
+                                }}>Remove</button>}
+                            </>
+                        }
                     </div>
                 )
             })}

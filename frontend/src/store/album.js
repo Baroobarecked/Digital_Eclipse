@@ -138,7 +138,6 @@ export default function albumsReducer(state = null, action) {
         case FILTER_ALBUMS:
             newState = {...storeState}
             newState = {'albums': newState['albums'].filter(album => {
-                
                 if( album.album_title.toLowerCase().includes(action.searchVal.toLowerCase())) {
                     return album
                 }

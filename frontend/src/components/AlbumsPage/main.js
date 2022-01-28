@@ -33,6 +33,12 @@ function Albums() {
             navigator('/login')
         }
     }, [])
+
+    useEffect(() => {
+        if(communityOpen) {
+            resumeMonitoring()
+        }
+    }, [communityOpen])
     
 
     useEffect(() => {
@@ -66,8 +72,6 @@ function Albums() {
 
     const connectAudio = () => {
         
-        // let dataArray;
-        
         
         if(!audioCtx) {
             let AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -97,22 +101,19 @@ function Albums() {
         }
     }, [audioCtx])
 
-    useEffect(() => {
-        resumeMonitoring()
-    }, [analyserNode]) 
-
     function resumeMonitoring() {
         if(analyserNode) {
             let dataArray = new Uint8Array(analyserNode.frequencyBinCount);
             
-        
     
-            setBufferInterval(setInterval(() => {
+            let bufferInt = setInterval(() => {
                 void analyserNode.getByteFrequencyData(dataArray);
                 setBarHeights([...dataArray])
                 setBars([])
     
-            }, 100))
+            }, 100)
+            setBufferInterval(bufferInt)
+            clearInterval(bufferInterval)
 
         }
 
@@ -176,22 +177,12 @@ function Albums() {
                     albumWrapper.style.top = `${15000 * middle**(1/6) / halfWidth}%`
                     albumWrapper.style.opacity = `${100 * middle**(1/3) / halfWidth**(1/3)}%`
                     albumWrapper.style.fontSize = `${3 * middle / halfWidth}vh`
-                    // if((10 + 40 * middle / halfWidth) < 28) {
-                    //     albumWrapper.lastChild.style.visibility = 'hidden';
-                    // } else {
-                    //     albumWrapper.lastChild.style.visibility = 'visible';
-                    // }
                 } else if (middle > halfWidth && middle <= albumDisplayLocation.width){
                     albumWrapper.style.width = `${10 + 25 * (albumDisplayLocation.width - middle) / halfWidth}vh`
                     albumWrapper.style.height = `${10 + 25 * (albumDisplayLocation.width - middle) / halfWidth}vh`
                     albumWrapper.style.top = `${15000 * (albumDisplayLocation.width - middle)**(1/6) / halfWidth}%`
                     albumWrapper.style.opacity = `${100 * (albumDisplayLocation.width - middle)**(1/3) / halfWidth**(1/3)}%`
                     albumWrapper.style.fontSize = `${3 * (albumDisplayLocation.width - middle) / halfWidth}vh`
-                    // if((10 + 40 * (albumDisplayLocation.width - middle) / halfWidth) < 28) {
-                    //     albumWrapper.lastChild.style.visibility = 'hidden';
-                    // } else {
-                    //     albumWrapper.lastChild.style.visibility = 'visible';
-                    // }
                 } else {
                     albumWrapper.style.width = `10vh`
                     albumWrapper.style.height = `10vh`
@@ -260,6 +251,7 @@ function Albums() {
         e.stopPropagation()
         let player = document.getElementById('audio_player')
         player.src = '';
+        console.log(bufferInterval)
         clearInterval(bufferInterval)
         document.getElementById('audio_player').pause()
         setRecordPlaying(false)
