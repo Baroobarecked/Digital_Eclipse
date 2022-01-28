@@ -12,6 +12,7 @@ function Albums() {
     const currentUser = useSelector(state => state.session.User)
     const dispatch = useDispatch()
     const [albumData, setAlbumData] = useState(null)
+    const [albumIndex, setAlbumIndex] = useState(null)
     const [displayScroll, setDisplayScroll] = useState(true)
     const songs = useSelector(state => state.songs)
     const navigator = useNavigate()
@@ -40,6 +41,10 @@ function Albums() {
         }
     }, [communityOpen])
     
+
+    useEffect(() => {
+        setAlbumData(albums.albums[albumIndex])
+    }, [albums])
 
     useEffect(() => {
         const client = document.getElementById('soundDisplay');
@@ -272,12 +277,13 @@ function Albums() {
             {displayScroll && !communityOpen &&
                 (<div className='album_display' onWheel={scrollAlbums}>
                     <div className='scrollBuffer'></div>
-                    {albums && albums.albums.map(album => {
+                    {albums && albums.albums.map((album, index) => {
                         sizeAlbums()
                         return (
                             <div className='album'>
                                 <div className='album_wrapper' value={album} onClick={e => {
                                     setAlbumData(album);
+                                    setAlbumIndex(index)
                                     albumClick(album);
                                     resumeMonitoring();
                                 }} style={{backgroundImage:`url(${album.album_cover})`}}>

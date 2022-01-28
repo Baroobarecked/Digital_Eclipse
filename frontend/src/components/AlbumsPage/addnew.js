@@ -127,7 +127,7 @@ export default function AddAlbum() {
 
         let res = await dispatch(albumActions.editOldAlbum(album));
         if(res) {
-            navigate(`/albums`, {replace: true})
+            navigate(`/albums`)
         }
 
     }
@@ -157,8 +157,8 @@ export default function AddAlbum() {
                 </div>
                 {imageUrl && <p>To change image, upload another.</p>}
                 {(imageLoading) && <p>Loading...</p>}
-                {!albumId && <button onClick={submitAlbum}>Add Album</button>}
-                {albumId && <button onClick={editAlbum}>Edit Album</button>}
+                {!albumId && <button onClick={submitAlbum}>Submit</button>}
+                {albumId && <button onClick={editAlbum}>Submit Edit</button>}
             </form>
         </div>
     )

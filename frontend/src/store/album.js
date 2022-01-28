@@ -119,12 +119,13 @@ export default function albumsReducer(state = null, action) {
             return newState;
         case EDIT_ALBUM:
             newState = {...state};
+            let albumArray = newState['albums']
             newState['albums'].forEach((album, index) => {
                 if(album.id === action.album.id) {
-                    newState.albums[index] = action.album
+                    albumArray.splice(index, 1, action.album)
                 }
             });
-            return newState;
+            return {'albums': [...albumArray]};
         case DELETE_ALBUM:
             newState = {...storeState};
             let albums = newState['albums']
