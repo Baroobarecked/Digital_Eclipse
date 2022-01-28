@@ -360,8 +360,9 @@ function Albums() {
                                                 <button onClick={() => {
                                                     setDisplayScroll(true)
                                                     setTimeout(sizeAlbums, 10)
-                                                    dispatch(songActions.resetTheSongs())
-                                                    clearInterval(bufferInterval)
+                                                    // dispatch(songActions.resetTheSongs())
+                                                    setDisplayScroll(false)
+                                                    // clearInterval(bufferInterval)
                                                     navigator('/albums')
                                                 }}>Cancel Edit</button>
                                             </>
