@@ -251,12 +251,12 @@ export default function SongForm() {
                                     })}
                                 </ul>
                                 {!albumSongs && 
-                                    <button onClick={submitSongs}>Add to Album</button>
+                                    <button onClick={submitSongs}>Submit</button>
                                 } 
                             </>
                         }            
                         {albumSongs && 
-                            <button onClick={editSongs}>Edit Album Songs</button>
+                            <button onClick={editSongs}>Submit Edit</button>
                         } 
                     </form>
                 </div>

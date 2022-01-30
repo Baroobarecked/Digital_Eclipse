@@ -57,7 +57,7 @@
   scrollbar-width: none;  
 }
 
-#signupform input, #loginform input, #add_album_form input, #add_song_form input, #post_input{
+#signupform input, #loginform input, #add_album_form input, #add_song_form input, #post_input, #create_forum input{
   background-color: navy;
   color: white;
   border: none;

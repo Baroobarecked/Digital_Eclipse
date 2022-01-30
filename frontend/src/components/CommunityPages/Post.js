@@ -77,25 +77,29 @@ export default function Posts() {
                     {posts && posts.map(post => {
                         return(
                             <div className="post_content">
-                                <img className="profile_image" src={`${post[2]}`}></img>
-                                <h4 className="username">{post[1]}</h4>
-                                {!(post[0].id === editId) && <p className="content">{post[0].content}</p>}
-                                {post[0].id === editId && <textarea className='content' type='text' value={editContent} onChange={e => setEditContent(e.target.value)}></textarea>}
-                                {post[0].user_id === currentUser.id && 
-                                    <div className="edit_buttons">
-                                        {post[0].id !== editId && <button onClick={() => {
-                                            setEditContent(post[0].content)
-                                            setEditId(post[0].id)
-                                        }}>Edit</button>}
-                                        {(post[0].id === editId) && <button onClick={() => {
-                                            submitEdit()
-                                            setEditId(null)
-                                        }}>Close Edit</button>}
-                                        <button onClick={() => {
-                                            dispatch(postActions.deleteAPost(post[0].id))
-                                            socket.emit('post_delete', {'postId': post[0].id, discussionId})
-                                        }}>Delete</button>
-                                    </div>
+                                {currentUser && 
+                                    <>
+                                        <img className="profile_image" src={`${post[2]}`}></img>
+                                        <h4 className="username">{post[1]}</h4>
+                                        {!(post[0].id === editId) && <p className="content">{post[0].content}</p>}
+                                        {post[0].id === editId && <textarea className='content' type='text' value={editContent} onChange={e => setEditContent(e.target.value)}></textarea>}
+                                        {post[0].user_id === currentUser.id && 
+                                            <div className="edit_buttons">
+                                                {post[0].id !== editId && <button onClick={() => {
+                                                    setEditContent(post[0].content)
+                                                    setEditId(post[0].id)
+                                                }}>Edit</button>}
+                                                {(post[0].id === editId) && <button onClick={() => {
+                                                    submitEdit()
+                                                    setEditId(null)
+                                                }}>Close Edit</button>}
+                                                <button onClick={() => {
+                                                    dispatch(postActions.deleteAPost(post[0].id))
+                                                    socket.emit('post_delete', {'postId': post[0].id, discussionId})
+                                                }}>Delete</button>
+                                            </div>
+                                        }
+                                    </>
                                 }
                             </div>
                         )
@@ -104,11 +108,13 @@ export default function Posts() {
                 <div id='post_form'>
                     <input id='post_input' type='text' value={content} onChange={e => setContent(e.target.value)}></input>
                     <button onClick={async e => {
-                        let user = currentUser;
-                        if(content){
-                            let res = await dispatch(postActions.createNewPost({user, content, discussionId}))
-                            socket.emit('post', { ...res,  })
-                            setContent('')
+                        if(currentUser) {
+                            let user = currentUser;
+                            if(content){
+                                let res = await dispatch(postActions.createNewPost({user, content, discussionId}))
+                                socket.emit('post', { ...res,  })
+                                setContent('')
+                            }
                         }
                     }}>Submit</button>
                 </div>
