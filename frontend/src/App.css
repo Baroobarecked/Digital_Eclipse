@@ -57,7 +57,7 @@
   scrollbar-width: none;  
 }
 
-#signupform input, #loginform input, #add_album_form input, #add_song_form input{
+#signupform input, #loginform input, #add_album_form input, #add_song_form input, #post_input{
   background-color: navy;
   color: white;
   border: none;
@@ -67,7 +67,20 @@
   margin-bottom: 10px;
 }
 
-input:focus {
+#post_form {
+  display: flex;
+  align-items: center;
+}
+
+#post_input {
+  width: 30vw;
+  border-radius: 10vw;
+  background-color: rgba(65, 65, 65, 0.5);
+  box-shadow: 0 0 .5vw black, 0 0 .5vw black;
+  margin: 0px;
+}
+
+input:focus, #post_input:focus {
   outline: hidden;
 }
 

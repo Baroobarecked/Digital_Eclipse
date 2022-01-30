@@ -101,13 +101,15 @@ export default function Posts() {
                         )
                     })}
                 </div>
-                <div>
-                    <input type='text' value={content} onChange={e => setContent(e.target.value)}></input>
+                <div id='post_form'>
+                    <input id='post_input' type='text' value={content} onChange={e => setContent(e.target.value)}></input>
                     <button onClick={async e => {
                         let user = currentUser;
-                        let res = await dispatch(postActions.createNewPost({user, content, discussionId}))
-                        socket.emit('post', { ...res,  })
-                        setContent('')
+                        if(content){
+                            let res = await dispatch(postActions.createNewPost({user, content, discussionId}))
+                            socket.emit('post', { ...res,  })
+                            setContent('')
+                        }
                     }}>Submit</button>
                 </div>
             </div>

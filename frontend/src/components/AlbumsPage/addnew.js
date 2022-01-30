@@ -151,7 +151,7 @@ export default function AddAlbum() {
                 })}
                 <label /> Album Title {albumTitle.length}/100
                 <input type={'text'} onChange={e => {
-                    if(albumTitle.length < 100) {
+                    if(e.target.value.length <= 100) {
                         setAlbumTitle(e.target.value)
                     }
                 }} value={albumTitle}/>
