@@ -39,6 +39,25 @@ export const setDiscussionState = () => async dispatch => {
     }
 }
 
+export const setFilteredDiscussionState = val => async dispatch => {
+    let res = await fetch('/api/forums/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'value': val
+        })
+    })
+
+    if(res.ok) {
+        let result = await res.json()
+        
+
+        dispatch(setDiscussions(result.discussions))
+    }
+}
+
 export const createNewDiscussion = data => async dispatch => {
     let res = await fetch('/api/forums', {
         method: 'POST',

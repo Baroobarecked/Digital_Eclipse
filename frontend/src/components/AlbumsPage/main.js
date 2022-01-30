@@ -289,7 +289,7 @@ function Albums() {
                                     albumClick(album);
                                     resumeMonitoring();
                                 }} style={{backgroundImage:`url(${album.album_cover})`}}>
-                                    <h1>{album.album_title}</h1>
+                                    <h1><span>{album.album_title}</span></h1>
                                 </div>
                             </div>
                         )
@@ -332,7 +332,7 @@ function Albums() {
                         }>
                             {displayButtons && 
                                 <>
-                                    <h1>{albumData.album_title}</h1>
+                                    <h1><span>{albumData.album_title}</span></h1>
                                     <div id='album_buttons'>
                                         {!editOpen &&
                                             <>

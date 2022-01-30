@@ -209,6 +209,7 @@ input:focus, #post_input:focus {
   align-items: center;
   overflow: hidden;
   position: relative;
+  
 }
 
 .album_wrapper:hover {
@@ -221,6 +222,14 @@ input:focus, #post_input:focus {
   color: white;
   padding: 5px;
   border-radius: 2vh;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.album_wrapper h1 span {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 div.album_wrapper_single {
@@ -397,9 +406,17 @@ button, .album_single h1 {
 }
 
 .album_single h1 {
-  width: 100%;
+  width: 80%;
+  min-width: 0;
   font-size: 1.5vw;
   height: 2vw;
+  display: flex;
+  justify-content: center;
+}
+
+.album_single span {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 form button {
@@ -414,10 +431,6 @@ button:hover {
   border: navy 2px solid;
 }
 
-.album_single h1 {
-  display: flex;
-  justify-content: center;
-}
 
 #album_buttons {
   display: flex;
@@ -606,6 +619,12 @@ button:hover {
   height: calc(100vh - 10vh - 20%);
 }
 
+#posts h1 {
+  max-width: 50%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
 #post_container {
   height: 70%;
   overflow-x: hidden;
@@ -682,7 +701,7 @@ button:hover {
   align-items: center;
 }
 
-.forum_content p {
+.forum_content h3 {
   max-width: 50%;
   overflow-x: hidden;
   text-overflow: ellipsis;

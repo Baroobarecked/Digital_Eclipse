@@ -1,3 +1,4 @@
+from crypt import methods
 import os
 from flask import Blueprint, request
 from flask_login import login_required
@@ -24,6 +25,14 @@ def get_discussions():
 
     # skip = random.randint(1, 4)
     discussions = Forum.query.limit(10)
+
+    return {'discussions': [discussion.to_dict() for discussion in discussions]}
+
+@forum_routes.route('/search', methods=['POST'])
+def get_filtered_discussions():
+    data = request.json['value']
+    # skip = random.randint(1, 4)
+    discussions = Forum.query.filter(Forum.forum_title.ilike(f'%{data}%'))
 
     return {'discussions': [discussion.to_dict() for discussion in discussions]}
 
